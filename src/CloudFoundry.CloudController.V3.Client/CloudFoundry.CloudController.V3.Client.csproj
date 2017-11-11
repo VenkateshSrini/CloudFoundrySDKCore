@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CloudFoundry.CloudController.Common\CloudFoundry.CloudController.Common.csproj" />
+    <ProjectReference Include="..\CloudFoundry.CloudController.V2.Client\CloudFoundry.CloudController.V2.Client.csproj" />
+    <ProjectReference Include="..\CloudFoundry.UAA.Client\CloudFoundry.UAA.Client.csproj" />
+  </ItemGroup>
+
+</Project>
