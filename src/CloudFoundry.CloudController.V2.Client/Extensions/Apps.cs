@@ -204,7 +204,7 @@ namespace CloudFoundry.CloudController.V2.Client
         {
             string boundary = DateTime.Now.Ticks.ToString("x");
 
-            using (SimpleHttpClient httpClient = new SimpleHttpClient(this.Client.CancellationToken, AppsEndpoint.DefaultUploadTimeout))
+            using (SimpleHttpClient httpClient = new SimpleHttpClient(this.Client.CancellationToken, AppsEndpoint.DefaultUploadTimeout,this.Client.SkipCertificateValidation))
             {
                 // http://apidocs.cloudfoundry.org/210/apps/uploads_the_bits_for_an_app.html
                 httpClient.HttpProxy = Client.HttpProxy;

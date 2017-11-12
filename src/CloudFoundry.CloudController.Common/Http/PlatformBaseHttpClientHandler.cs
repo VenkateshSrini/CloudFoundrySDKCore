@@ -11,18 +11,21 @@
     public class PlatformBaseHttpClientHandler : HttpClientHandler, IPlatformBaseHttpClientHandler
     {
         /// <inheritdoc/>
+        private bool _skipServerCertificateValidation;
         public bool SkipCertificateValidation
         {
             get
             {
-                return false;
+                return _skipServerCertificateValidation;
             }
 
             set
             {
+                _skipServerCertificateValidation = value;
                 if (value == true)
                 {
-                    throw new NotSupportedException("Cannot skip certificate validation on this platform.");
+                    // throw new NotSupportedException("Cannot skip certificate validation on this platform.");
+                    this.ServerCertificateCustomValidationCallback = delegate { return true; };
                 }
             }
         }

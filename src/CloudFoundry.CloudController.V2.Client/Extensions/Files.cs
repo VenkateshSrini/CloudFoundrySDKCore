@@ -28,7 +28,7 @@
                 uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/apps/{0}/instances/{1}/files/{2}", app_guid, instance_index, file_path);
             }
 
-            using (SimpleHttpClient httpClient = new SimpleHttpClient(this.Client.CancellationToken, new TimeSpan(0, 5, 0)))
+            using (SimpleHttpClient httpClient = new SimpleHttpClient(this.Client.CancellationToken, new TimeSpan(0, 5, 0),this.Client.SkipCertificateValidation))
             {
                 httpClient.SkipCertificateValidation = Client.SkipCertificateValidation;
 

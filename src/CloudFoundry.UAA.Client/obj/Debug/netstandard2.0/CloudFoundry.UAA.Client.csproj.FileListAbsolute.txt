@@ -1,0 +1,13 @@
+D:\Venkatesh\CloudFoundry\WorkArea\github\src\CloudFoundry.UAA.Client\bin\Debug\netstandard2.0\CloudFoundry.UAA.Client.deps.json
+D:\Venkatesh\CloudFoundry\WorkArea\github\src\CloudFoundry.UAA.Client\bin\Debug\netstandard2.0\CloudFoundry.UAA.Client.dll
+D:\Venkatesh\CloudFoundry\WorkArea\github\src\CloudFoundry.UAA.Client\bin\Debug\netstandard2.0\CloudFoundry.UAA.Client.pdb
+D:\Venkatesh\CloudFoundry\WorkArea\github\src\CloudFoundry.UAA.Client\bin\Debug\netstandard2.0\CloudFoundry.CloudController.Common.dll
+D:\Venkatesh\CloudFoundry\WorkArea\github\src\CloudFoundry.UAA.Client\bin\Debug\netstandard2.0\Thinktecture.IdentityModel.Client.dll
+D:\Venkatesh\CloudFoundry\WorkArea\github\src\CloudFoundry.UAA.Client\bin\Debug\netstandard2.0\CloudFoundry.CloudController.Common.pdb
+D:\Venkatesh\CloudFoundry\WorkArea\github\src\CloudFoundry.UAA.Client\bin\Debug\netstandard2.0\Thinktecture.IdentityModel.Client.pdb
+D:\Venkatesh\CloudFoundry\WorkArea\github\src\CloudFoundry.UAA.Client\obj\Debug\netstandard2.0\CloudFoundry.UAA.Client.csprojResolveAssemblyReference.cache
+D:\Venkatesh\CloudFoundry\WorkArea\github\src\CloudFoundry.UAA.Client\obj\Debug\netstandard2.0\CloudFoundry.UAA.Client.csproj.CoreCompileInputs.cache
+D:\Venkatesh\CloudFoundry\WorkArea\github\src\CloudFoundry.UAA.Client\obj\Debug\netstandard2.0\CloudFoundry.UAA.Client.AssemblyInfoInputs.cache
+D:\Venkatesh\CloudFoundry\WorkArea\github\src\CloudFoundry.UAA.Client\obj\Debug\netstandard2.0\CloudFoundry.UAA.Client.AssemblyInfo.cs
+D:\Venkatesh\CloudFoundry\WorkArea\github\src\CloudFoundry.UAA.Client\obj\Debug\netstandard2.0\CloudFoundry.UAA.Client.dll
+D:\Venkatesh\CloudFoundry\WorkArea\github\src\CloudFoundry.UAA.Client\obj\Debug\netstandard2.0\CloudFoundry.UAA.Client.pdb

@@ -54,7 +54,7 @@ namespace CloudFoundry.CloudController.V3.Client
         {
             string boundary = DateTime.Now.Ticks.ToString("x");
 
-            using (SimpleHttpClient httpClient = new SimpleHttpClient(this.Client.CancellationToken, PackagesExperimentalEndpoint.DefaultUploadTimeout))
+            using (SimpleHttpClient httpClient = new SimpleHttpClient(this.Client.CancellationToken, PackagesExperimentalEndpoint.DefaultUploadTimeout, this.Client.SkipCertificateValidation))
             {
                 // http://apidocs.cloudfoundry.org/212/packages_(experimental)/upload_bits_for_a_package_of_type_bits.html
                 httpClient.HttpProxy = Client.HttpProxy;

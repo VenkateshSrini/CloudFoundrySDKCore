@@ -23,13 +23,13 @@
         private readonly SimpleHttpRedirectHandler handler = null;
         private CancellationToken cancellationToken = CancellationToken.None;
         private bool disposed = false;
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleHttpClient"/> class.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         public SimpleHttpClient(CancellationToken cancellationToken)
-            : this(cancellationToken, SimpleHttpClient.DefaultTimeout)
+            : this(cancellationToken, SimpleHttpClient.DefaultTimeout,true)
         {
         }
 
@@ -38,11 +38,14 @@
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <param name="timeout">The timeout.</param>
-        public SimpleHttpClient(CancellationToken cancellationToken, TimeSpan timeout)
+        public SimpleHttpClient(CancellationToken cancellationToken, TimeSpan timeout, bool validateClientCertificate)
         {
             try
             {
+                
                 this.handler = new SimpleHttpRedirectHandler();
+                //if (!validateClientCertificate)
+                //    this.handler.ServerCertificateCustomValidationCallback = delegate { return true; };
                 this.client = new HttpClient(this.handler);
 
                 this.Timeout = timeout;
@@ -50,7 +53,8 @@
                 this.Method = HttpMethod.Get;
                 this.Headers = new Dictionary<string, string>();
                 this.ContentType = string.Empty;
-                this.SkipCertificateValidation = false;
+                //this.SkipCertificateValidation = false;
+                this.SkipCertificateValidation = !validateClientCertificate;
             }
             catch
             {
