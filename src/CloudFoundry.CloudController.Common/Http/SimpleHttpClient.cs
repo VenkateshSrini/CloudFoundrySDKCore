@@ -38,7 +38,7 @@
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <param name="timeout">The timeout.</param>
-        public SimpleHttpClient(CancellationToken cancellationToken, TimeSpan timeout, bool validateClientCertificate)
+        public SimpleHttpClient(CancellationToken cancellationToken, TimeSpan timeout, bool skipCertificateValidation)
         {
             try
             {
@@ -54,7 +54,7 @@
                 this.Headers = new Dictionary<string, string>();
                 this.ContentType = string.Empty;
                 //this.SkipCertificateValidation = false;
-                this.SkipCertificateValidation = !validateClientCertificate;
+                this.SkipCertificateValidation = !skipCertificateValidation;
             }
             catch
             {
