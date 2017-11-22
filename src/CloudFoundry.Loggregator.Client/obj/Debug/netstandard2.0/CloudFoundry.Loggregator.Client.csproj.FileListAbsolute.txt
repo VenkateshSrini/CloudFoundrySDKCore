@@ -9,3 +9,14 @@ D:\Venkatesh\CloudFoundry\WorkArea\github\src\CloudFoundry.Loggregator.Client\ob
 D:\Venkatesh\CloudFoundry\WorkArea\github\src\CloudFoundry.Loggregator.Client\obj\Debug\netstandard2.0\CloudFoundry.Loggregator.Client.AssemblyInfo.cs
 D:\Venkatesh\CloudFoundry\WorkArea\github\src\CloudFoundry.Loggregator.Client\obj\Debug\netstandard2.0\CloudFoundry.Loggregator.Client.dll
 D:\Venkatesh\CloudFoundry\WorkArea\github\src\CloudFoundry.Loggregator.Client\obj\Debug\netstandard2.0\CloudFoundry.Loggregator.Client.pdb
+D:\Venkatesh\DotNetCF\CFDotNetSDKCore\CloudFoundrySDKCore\src\CloudFoundry.Loggregator.Client\bin\Debug\netstandard2.0\CloudFoundry.Loggregator.Client.deps.json
+D:\Venkatesh\DotNetCF\CFDotNetSDKCore\CloudFoundrySDKCore\src\CloudFoundry.Loggregator.Client\bin\Debug\netstandard2.0\CloudFoundry.Loggregator.Client.dll
+D:\Venkatesh\DotNetCF\CFDotNetSDKCore\CloudFoundrySDKCore\src\CloudFoundry.Loggregator.Client\bin\Debug\netstandard2.0\CloudFoundry.Loggregator.Client.pdb
+D:\Venkatesh\DotNetCF\CFDotNetSDKCore\CloudFoundrySDKCore\src\CloudFoundry.Loggregator.Client\bin\Debug\netstandard2.0\CloudFoundry.CloudController.Common.dll
+D:\Venkatesh\DotNetCF\CFDotNetSDKCore\CloudFoundrySDKCore\src\CloudFoundry.Loggregator.Client\bin\Debug\netstandard2.0\CloudFoundry.CloudController.Common.pdb
+D:\Venkatesh\DotNetCF\CFDotNetSDKCore\CloudFoundrySDKCore\src\CloudFoundry.Loggregator.Client\obj\Debug\netstandard2.0\CloudFoundry.Loggregator.Client.csprojResolveAssemblyReference.cache
+D:\Venkatesh\DotNetCF\CFDotNetSDKCore\CloudFoundrySDKCore\src\CloudFoundry.Loggregator.Client\obj\Debug\netstandard2.0\CloudFoundry.Loggregator.Client.csproj.CoreCompileInputs.cache
+D:\Venkatesh\DotNetCF\CFDotNetSDKCore\CloudFoundrySDKCore\src\CloudFoundry.Loggregator.Client\obj\Debug\netstandard2.0\CloudFoundry.Loggregator.Client.AssemblyInfoInputs.cache
+D:\Venkatesh\DotNetCF\CFDotNetSDKCore\CloudFoundrySDKCore\src\CloudFoundry.Loggregator.Client\obj\Debug\netstandard2.0\CloudFoundry.Loggregator.Client.AssemblyInfo.cs
+D:\Venkatesh\DotNetCF\CFDotNetSDKCore\CloudFoundrySDKCore\src\CloudFoundry.Loggregator.Client\obj\Debug\netstandard2.0\CloudFoundry.Loggregator.Client.dll
+D:\Venkatesh\DotNetCF\CFDotNetSDKCore\CloudFoundrySDKCore\src\CloudFoundry.Loggregator.Client\obj\Debug\netstandard2.0\CloudFoundry.Loggregator.Client.pdb

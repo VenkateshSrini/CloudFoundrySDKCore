@@ -6,3 +6,12 @@ D:\Venkatesh\CloudFoundry\WorkArea\github\src\Thinktecture.IdentityModel.Client\
 D:\Venkatesh\CloudFoundry\WorkArea\github\src\Thinktecture.IdentityModel.Client\obj\Debug\netstandard2.0\Thinktecture.IdentityModel.Client.AssemblyInfo.cs
 D:\Venkatesh\CloudFoundry\WorkArea\github\src\Thinktecture.IdentityModel.Client\obj\Debug\netstandard2.0\Thinktecture.IdentityModel.Client.dll
 D:\Venkatesh\CloudFoundry\WorkArea\github\src\Thinktecture.IdentityModel.Client\obj\Debug\netstandard2.0\Thinktecture.IdentityModel.Client.pdb
+D:\Venkatesh\DotNetCF\CFDotNetSDKCore\CloudFoundrySDKCore\src\Thinktecture.IdentityModel.Client\bin\Debug\netstandard2.0\Thinktecture.IdentityModel.Client.deps.json
+D:\Venkatesh\DotNetCF\CFDotNetSDKCore\CloudFoundrySDKCore\src\Thinktecture.IdentityModel.Client\bin\Debug\netstandard2.0\Thinktecture.IdentityModel.Client.dll
+D:\Venkatesh\DotNetCF\CFDotNetSDKCore\CloudFoundrySDKCore\src\Thinktecture.IdentityModel.Client\bin\Debug\netstandard2.0\Thinktecture.IdentityModel.Client.pdb
+D:\Venkatesh\DotNetCF\CFDotNetSDKCore\CloudFoundrySDKCore\src\Thinktecture.IdentityModel.Client\obj\Debug\netstandard2.0\Thinktecture.IdentityModel.Client.csprojResolveAssemblyReference.cache
+D:\Venkatesh\DotNetCF\CFDotNetSDKCore\CloudFoundrySDKCore\src\Thinktecture.IdentityModel.Client\obj\Debug\netstandard2.0\Thinktecture.IdentityModel.Client.csproj.CoreCompileInputs.cache
+D:\Venkatesh\DotNetCF\CFDotNetSDKCore\CloudFoundrySDKCore\src\Thinktecture.IdentityModel.Client\obj\Debug\netstandard2.0\Thinktecture.IdentityModel.Client.AssemblyInfoInputs.cache
+D:\Venkatesh\DotNetCF\CFDotNetSDKCore\CloudFoundrySDKCore\src\Thinktecture.IdentityModel.Client\obj\Debug\netstandard2.0\Thinktecture.IdentityModel.Client.AssemblyInfo.cs
+D:\Venkatesh\DotNetCF\CFDotNetSDKCore\CloudFoundrySDKCore\src\Thinktecture.IdentityModel.Client\obj\Debug\netstandard2.0\Thinktecture.IdentityModel.Client.dll
+D:\Venkatesh\DotNetCF\CFDotNetSDKCore\CloudFoundrySDKCore\src\Thinktecture.IdentityModel.Client\obj\Debug\netstandard2.0\Thinktecture.IdentityModel.Client.pdb

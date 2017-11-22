@@ -871,7 +871,7 @@
       ]
     },
     "Newtonsoft.Json/10.0.3": {
-      "sha512": "wBM7i7i3U2WX0ecor4zdVGvgrwFUjuigBoHKiL+nH39fCOpCPjBY3RDqJM32edvdyTAVdjzlccHsg41+/+zpSA==",
+      "sha512": "hSXaFmh7hNCuEoC4XNY5DrRkLDzYHqPx/Ik23R4J86Z7PE/Y6YidhG602dFVdLBRSdG6xp9NabH3dXpcoxWvww==",
       "type": "package",
       "path": "newtonsoft.json/10.0.3",
       "files": [
@@ -3083,7 +3083,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Narasima\\.nuget\\packages\\": {},
+    "C:\\Users\\333478\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
@@ -3092,17 +3092,17 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "D:\\Venkatesh\\CloudFoundry\\WorkArea\\github\\src\\Thinktecture.IdentityModel.Client\\Thinktecture.IdentityModel.Client.csproj",
+      "projectUniqueName": "D:\\Venkatesh\\DotNetCF\\CFDotNetSDKCore\\CloudFoundrySDKCore\\src\\Thinktecture.IdentityModel.Client\\Thinktecture.IdentityModel.Client.csproj",
       "projectName": "Thinktecture.IdentityModel.Client",
-      "projectPath": "D:\\Venkatesh\\CloudFoundry\\WorkArea\\github\\src\\Thinktecture.IdentityModel.Client\\Thinktecture.IdentityModel.Client.csproj",
-      "packagesPath": "C:\\Users\\Narasima\\.nuget\\packages\\",
-      "outputPath": "D:\\Venkatesh\\CloudFoundry\\WorkArea\\github\\src\\Thinktecture.IdentityModel.Client\\obj\\",
+      "projectPath": "D:\\Venkatesh\\DotNetCF\\CFDotNetSDKCore\\CloudFoundrySDKCore\\src\\Thinktecture.IdentityModel.Client\\Thinktecture.IdentityModel.Client.csproj",
+      "packagesPath": "C:\\Users\\333478\\.nuget\\packages\\",
+      "outputPath": "D:\\Venkatesh\\DotNetCF\\CFDotNetSDKCore\\CloudFoundrySDKCore\\src\\Thinktecture.IdentityModel.Client\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Narasima\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\333478\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3110,8 +3110,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {},
-        "https://www.myget.org/F/akkadotnet-netcore/api/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netstandard2.0": {
