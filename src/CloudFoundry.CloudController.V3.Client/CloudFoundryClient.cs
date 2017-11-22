@@ -119,7 +119,7 @@ namespace CloudFoundry.CloudController.V3.Client
         /// The processes endpoint.
         /// </value>
         public ProcessesExperimentalEndpoint ProcessesExperimental { get; private set; }
-
+        public TaskResourceEndPoint TaskResource { get; private set; }
         /// <summary>
         /// Gets the authorization token. It returns empty string if the client is not authorized. Also this method does not verify if the current token is expired.
         /// </summary>
@@ -243,6 +243,7 @@ namespace CloudFoundry.CloudController.V3.Client
             this.DropletsExperimental = new DropletsExperimentalEndpoint(this);
             this.PackagesExperimental = new PackagesExperimentalEndpoint(this);
             this.ProcessesExperimental = new ProcessesExperimentalEndpoint(this);
+            this.TaskResource = new TaskResourceEndPoint(this);
         }
     }
 }
