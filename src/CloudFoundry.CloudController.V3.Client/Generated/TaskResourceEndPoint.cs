@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Text;
 
 namespace CloudFoundry.CloudController.V3.Client
 {
@@ -34,10 +35,12 @@ namespace CloudFoundry.CloudController.V3.Client
             {
                 client.Headers.Add(authHeader);
             }
-            client.ContentType = "application/x-www-form-urlencoded";
-            client.Content = ((string)JsonConvert.SerializeObject(createTaskRequest)).ConvertToStream();
+            //client.ContentType = "application/x-www-form-urlencoded";
+            //client.Content = ((string)JsonConvert.SerializeObject(createTaskRequest)).ConvertToStream();
+            var jsonContent = JsonConvert.SerializeObject(createTaskRequest);
+            StringContent stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
             var expectedReturnStatus = 200;
-            var response = await this.SendAsync(client, expectedReturnStatus);
+            var response = await this.SendAsync(client, expectedReturnStatus, stringContent);
             return Utilities.DeserializeJson<DC_CreateTaskResponse>(await response.ReadContentAsStringAsync());
         }
         public async Task<DC_CancelTaskResponse>CancelTask(DC_CancelTaskRequest cancelTaskRequest) {

@@ -164,7 +164,7 @@
             return await this.SendAsync(httpContent);
         }
 
-        internal async Task<SimpleHttpResponse> SendAsync(HttpContent requestContent)
+        public async Task<SimpleHttpResponse> SendAsync(HttpContent requestContent)
         {
             var requestMessage = new HttpRequestMessage { Method = this.Method, RequestUri = this.Uri };
 
