@@ -58,6 +58,7 @@ namespace CloudFoundry.CloudController.V3.Client.Data
             queryParam.Append((Page<=0) ? string.Empty : $"page{pageOperator}{Page}&");
             queryParam.Append(((PerPageRecords<1)||(PerPageRecords>5000)) ? string.Empty : $"per_page={PerPageRecords}&");
             queryParam.Append(string.IsNullOrWhiteSpace(OrderBy) ? string.Empty : $"order_by={OrderBy}&");
+            if (queryParam.Length  > 0)
             queryParam.Remove(queryParam.Length - 1, 1);
             return queryParam.ToString();
 

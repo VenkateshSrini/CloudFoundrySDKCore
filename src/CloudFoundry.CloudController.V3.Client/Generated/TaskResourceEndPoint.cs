@@ -45,7 +45,7 @@ namespace CloudFoundry.CloudController.V3.Client
         }
         public async Task<DC_CancelTaskResponse>CancelTask(DC_CancelTaskRequest cancelTaskRequest) {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = $"/v3/apps/tasks/{cancelTaskRequest.TaskGuid}/cancel";
+            uriBuilder.Path = $"/v3/tasks/{cancelTaskRequest.TaskGuid}/cancel";
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
             client.Method = HttpMethod.Put;
@@ -61,7 +61,7 @@ namespace CloudFoundry.CloudController.V3.Client
         public async Task<DC_GetTaskResponse>GetTaskByGuid(DC_GetTaskRequest getTaskRequest)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = $"/v3/apps/tasks/{getTaskRequest.TaskGuid}";
+            uriBuilder.Path = $"/v3/tasks/{getTaskRequest.TaskGuid}";
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
             client.Method = HttpMethod.Get;
@@ -79,7 +79,7 @@ namespace CloudFoundry.CloudController.V3.Client
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
           
             var queryParams = ((listTaskRequest != null) && (listTaskRequest.BuildQueryParams().Length>0)) ? "?" + listTaskRequest.BuildQueryParams() : string.Empty;
-            uriBuilder.Path = $"/v3/apps/tasks{queryParams}";
+            uriBuilder.Path = $"/v3/tasks{queryParams}";
             
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
