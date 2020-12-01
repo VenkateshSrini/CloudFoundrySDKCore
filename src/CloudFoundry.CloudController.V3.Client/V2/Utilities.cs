@@ -1,10 +1,11 @@
-﻿namespace CloudFoundry.CloudController.V3.Client
+﻿namespace CloudFoundry.CloudController.V2.Client
 {
     using System;
     using System.Globalization;
     using System.IO;
     using System.Linq;
     using CloudFoundry.CloudController.Common.Exceptions;
+    using CloudFoundry.CloudController.V2.Client.Interfaces;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
@@ -16,7 +17,7 @@
         };
 
         private Utilities()
-        {            
+        {
         }
 
         internal static T DeserializeJson<T>(string value)
@@ -55,33 +56,31 @@
             }
         }
 
-        internal static PagedResponseCollection<T> DeserializePage<T>(string value, CloudFoundryClientV3 client)
+        internal static PagedResponseCollection<T> DeserializePage<T>(string value, CloudFoundryClientV2 client)
         {
             PagedResponseCollection<T> page = new PagedResponseCollection<T>(client.SimpleHttp);
             page.Client = client;
-
-            using (StringReader stringReader = new StringReader(value))
-            {
-                using (JsonReader reader = new JsonTextReader(stringReader))
-                {
-                    reader.DateParseHandling = DateParseHandling.None;
-                    var obj = JObject.Load(reader);
-                    if (obj["pagination"] == null)
-                    {
-                        throw new CloudFoundryException("Value contains no pagination info");
-                    }
-
-                    page.Pagination = JsonConvert.DeserializeObject<Pagination>(obj["pagination"].ToString(), jsonSettings);
-                }
-            }
-
+            page.Properties = JsonConvert.DeserializeObject<PageProperties>(value, jsonSettings);
             page.Resources = DeserializeJsonResources<T>(value).ToList<T>();
             return page;
         }
 
         internal static T Deserialize<T>(JToken value)
         {
-            return JsonConvert.DeserializeObject<T>(value.ToString(), jsonSettings);
+            if (value["entity"] != null)
+            {
+                var o = JsonConvert.DeserializeObject<T>(value["entity"].ToString());
+                if (value["metadata"] != null)
+                {
+                    ((IResponse)o).EntityMetadata = JsonConvert.DeserializeObject<Metadata>(value["metadata"].ToString(), jsonSettings);
+                }
+
+                return (T)Convert.ChangeType(o, typeof(T), CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                return JsonConvert.DeserializeObject<T>(value.ToString(), jsonSettings);
+            }
         }
     }
 }

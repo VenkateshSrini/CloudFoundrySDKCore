@@ -12,6 +12,7 @@
 //
 
 using CloudFoundry.CloudController.Common;
+using CloudFoundry.CloudController.Common.Http;
 using CloudFoundry.CloudController.V3.Client.Data;
 using Newtonsoft.Json;
 using System;
@@ -29,7 +30,8 @@ namespace CloudFoundry.CloudController.V3.Client
     [GeneratedCodeAttribute("cf-sdk-builder", "1.0.0.0")]
     public partial class AppsExperimentalEndpoint : CloudFoundry.CloudController.V3.Client.Base.AbstractAppsExperimentalEndpoint
     {
-        internal AppsExperimentalEndpoint(CloudFoundryClient client) : base()
+        internal AppsExperimentalEndpoint(CloudFoundryClientV3 client,
+            ISimpleHttpClient simpleHttpClient) : base(simpleHttpClient)
         {
             this.Client = client;
         }
@@ -47,7 +49,8 @@ namespace CloudFoundry.CloudController.V3.Client.Base
         /// <summary>
         /// Initializes the class
         /// </summary>
-        protected AbstractAppsExperimentalEndpoint()
+        protected AbstractAppsExperimentalEndpoint(ISimpleHttpClient simpleHttpClient )
+            :base(simpleHttpClient)
         {
         }
 
@@ -65,7 +68,10 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
-                client.Headers.Add(authHeader);
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
             }
             client.ContentType = "application/x-www-form-urlencoded";
             client.Content = ((string)JsonConvert.SerializeObject(value)).ConvertToStream();
@@ -91,7 +97,10 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
-                client.Headers.Add(authHeader);
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
             }
             client.ContentType = "application/x-www-form-urlencoded";
             client.Content = ((string)JsonConvert.SerializeObject(value)).ConvertToStream();
@@ -114,7 +123,10 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
-                client.Headers.Add(authHeader);
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
             }
             client.ContentType = "application/x-www-form-urlencoded";
             var expectedReturnStatus = 204;
@@ -145,7 +157,10 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
-                client.Headers.Add(authHeader);
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
@@ -166,7 +181,10 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
-                client.Headers.Add(authHeader);
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
@@ -187,7 +205,10 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
-                client.Headers.Add(authHeader);
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
@@ -208,7 +229,10 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
-                client.Headers.Add(authHeader);
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
@@ -239,7 +263,10 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
-                client.Headers.Add(authHeader);
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
@@ -270,7 +297,10 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
-                client.Headers.Add(authHeader);
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
@@ -301,7 +331,10 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
-                client.Headers.Add(authHeader);
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
@@ -332,7 +365,10 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
-                client.Headers.Add(authHeader);
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
@@ -346,14 +382,17 @@ namespace CloudFoundry.CloudController.V3.Client.Base
         public async Task<ScalingProcessFromItsAppResponse> ScalingProcessFromItsApp(Guid? guid, dynamic type, ScalingProcessFromItsAppRequest value)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/apps/{0}/processes/{1}/scale", guid, type);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/apps/{0}/processes/{1}/actions/scale", guid, type);
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
             client.Method = HttpMethod.Put;
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
-                client.Headers.Add(authHeader);
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
             }
             client.ContentType = "application/x-www-form-urlencoded";
             client.Content = ((string)JsonConvert.SerializeObject(value)).ConvertToStream();
@@ -369,14 +408,17 @@ namespace CloudFoundry.CloudController.V3.Client.Base
         public async Task<StartingAppResponse> StartingApp(Guid? guid)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/apps/{0}/start", guid);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/apps/{0}/actions/start", guid);
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
             client.Method = HttpMethod.Put;
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
-                client.Headers.Add(authHeader);
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
             }
             client.ContentType = "application/x-www-form-urlencoded";
             var expectedReturnStatus = 200;
@@ -391,14 +433,17 @@ namespace CloudFoundry.CloudController.V3.Client.Base
         public async Task<StoppingAppResponse> StoppingApp(Guid? guid)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/apps/{0}/stop", guid);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/apps/{0}/actions/stop", guid);
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
             client.Method = HttpMethod.Put;
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
-                client.Headers.Add(authHeader);
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
             }
             client.ContentType = "application/x-www-form-urlencoded";
             var expectedReturnStatus = 200;

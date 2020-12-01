@@ -13,7 +13,7 @@
 
 using CloudFoundry.CloudController.Common;
 using CloudFoundry.CloudController.Common.Http;
-using CloudFoundry.CloudController.V3.Client.Data;
+using CloudFoundry.CloudController.V2.Client.Data;
 using Newtonsoft.Json;
 using System;
 using System.CodeDom.Compiler;
@@ -22,15 +22,15 @@ using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace CloudFoundry.CloudController.V3.Client
+namespace CloudFoundry.CloudController.V2.Client
 {
     /// <summary>
-    /// AppRoutesExperimental Endpoint
+    /// Stacks Endpoint
     /// </summary>
     [GeneratedCodeAttribute("cf-sdk-builder", "1.0.0.0")]
-    public partial class AppRoutesExperimentalEndpoint : CloudFoundry.CloudController.V3.Client.Base.AbstractAppRoutesExperimentalEndpoint
+    public partial class StacksEndpoint : CloudFoundry.CloudController.V2.Client.Base.AbstractStacksEndpoint
     {
-        internal AppRoutesExperimentalEndpoint(CloudFoundryClientV3 client,
+        internal StacksEndpoint(CloudFoundryClientV2 client,
             ISimpleHttpClient simpleHttpClient) : base(simpleHttpClient)
         {
             this.Client = client;
@@ -38,38 +38,38 @@ namespace CloudFoundry.CloudController.V3.Client
     }
 }
 
-namespace CloudFoundry.CloudController.V3.Client.Base
+namespace CloudFoundry.CloudController.V2.Client.Base
 {
     /// <summary>
-    /// Base abstract class for AppRoutesExperimental Endpoint
+    /// Base abstract class for Stacks Endpoint
     /// </summary>
     [GeneratedCodeAttribute("cf-sdk-builder", "1.0.0.0")]
-    public abstract class AbstractAppRoutesExperimentalEndpoint : BaseEndpoint
+    public abstract class AbstractStacksEndpoint : BaseEndpoint
     {
         /// <summary>
         /// Initializes the class
         /// </summary>
-        protected AbstractAppRoutesExperimentalEndpoint(ISimpleHttpClient simpleHttpClient):base(simpleHttpClient)
+        protected AbstractStacksEndpoint(ISimpleHttpClient simpleHttpClient):base(simpleHttpClient)
         {
         }
 
         /// <summary>
-        /// List routes
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/app_routes__experimental_/list_routes.html"</para>
+        /// List all Stacks
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/stacks/list_all_stacks.html"</para>
         /// </summary>
-        public async Task<PagedResponseCollection<ListRoutesResponse>> ListRoutes(Guid? guid)
+        public async Task<PagedResponseCollection<ListAllStacksResponse>> ListAllStacks()
         {
-            return await ListRoutes(guid, new RequestOptions());
+            return await ListAllStacks(new RequestOptions());
         }
 
         /// <summary>
-        /// List routes
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/app_routes__experimental_/list_routes.html"</para>
+        /// List all Stacks
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/stacks/list_all_stacks.html"</para>
         /// </summary>
-        public async Task<PagedResponseCollection<ListRoutesResponse>> ListRoutes(Guid? guid, RequestOptions options)
+        public async Task<PagedResponseCollection<ListAllStacksResponse>> ListAllStacks(RequestOptions options)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/apps/{0}/routes", guid);
+            uriBuilder.Path = "/v2/stacks";
             uriBuilder.Query = options.ToString();
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
@@ -84,42 +84,17 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializePage<ListRoutesResponse>(await response.ReadContentAsStringAsync(), this.Client);
+            return Utilities.DeserializePage<ListAllStacksResponse>(await response.ReadContentAsStringAsync(), this.Client);
         }
 
         /// <summary>
-        /// Map a Route
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/app_routes__experimental_/map_a_route.html"</para>
+        /// Delete a Particular Stack
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/stacks/delete_a_particular_stack.html"</para>
         /// </summary>
-        public async Task MapRoute(Guid? guid, MapRouteRequest value)
+        public async Task DeleteStack(Guid? guid)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/apps/{0}/routes", guid);
-            var client = this.GetHttpClient();
-            client.Uri = uriBuilder.Uri;
-            client.Method = HttpMethod.Put;
-            var authHeader = await BuildAuthenticationHeader();
-            if (!string.IsNullOrWhiteSpace(authHeader.Key))
-            {
-                if (client.Headers.ContainsKey(authHeader.Key))
-                    client.Headers[authHeader.Key] = authHeader.Value;
-                else
-                    client.Headers.Add(authHeader);
-            }
-            client.ContentType = "application/x-www-form-urlencoded";
-            client.Content = ((string)JsonConvert.SerializeObject(value)).ConvertToStream();
-            var expectedReturnStatus = 204;
-            var response = await this.SendAsync(client, expectedReturnStatus);
-        }
-
-        /// <summary>
-        /// Unmap a Route
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/app_routes__experimental_/unmap_a_route.html"</para>
-        /// </summary>
-        public async Task UnmapRoute(Guid? guid, UnmapRouteRequest value)
-        {
-            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/apps/{0}/routes", guid);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/stacks/{0}", guid);
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
             client.Method = HttpMethod.Delete;
@@ -132,9 +107,58 @@ namespace CloudFoundry.CloudController.V3.Client.Base
                     client.Headers.Add(authHeader);
             }
             client.ContentType = "application/x-www-form-urlencoded";
-            client.Content = ((string)JsonConvert.SerializeObject(value)).ConvertToStream();
             var expectedReturnStatus = 204;
             var response = await this.SendAsync(client, expectedReturnStatus);
+        }
+
+        /// <summary>
+        /// Create a Stack
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/stacks/create_a_stack.html"</para>
+        /// </summary>
+        public async Task<CreateStackResponse> CreateStack(CreateStackRequest value)
+        {
+            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
+            uriBuilder.Path = "/v2/stacks";
+            var client = this.GetHttpClient();
+            client.Uri = uriBuilder.Uri;
+            client.Method = HttpMethod.Post;
+            var authHeader = await BuildAuthenticationHeader();
+            if (!string.IsNullOrWhiteSpace(authHeader.Key))
+            {
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
+            }
+            client.ContentType = "application/x-www-form-urlencoded";
+            client.Content = ((string)JsonConvert.SerializeObject(value)).ConvertToStream();
+            var expectedReturnStatus = 201;
+            var response = await this.SendAsync(client, expectedReturnStatus);
+            return Utilities.DeserializeJson<CreateStackResponse>(await response.ReadContentAsStringAsync());
+        }
+
+        /// <summary>
+        /// Retrieve a Particular Stack
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/stacks/retrieve_a_particular_stack.html"</para>
+        /// </summary>
+        public async Task<RetrieveStackResponse> RetrieveStack(Guid? guid)
+        {
+            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/stacks/{0}", guid);
+            var client = this.GetHttpClient();
+            client.Uri = uriBuilder.Uri;
+            client.Method = HttpMethod.Get;
+            var authHeader = await BuildAuthenticationHeader();
+            if (!string.IsNullOrWhiteSpace(authHeader.Key))
+            {
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
+            }
+            var expectedReturnStatus = 200;
+            var response = await this.SendAsync(client, expectedReturnStatus);
+            return Utilities.DeserializeJson<RetrieveStackResponse>(await response.ReadContentAsStringAsync());
         }
     }
 }

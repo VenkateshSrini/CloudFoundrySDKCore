@@ -13,7 +13,7 @@
 
 using CloudFoundry.CloudController.Common;
 using CloudFoundry.CloudController.Common.Http;
-using CloudFoundry.CloudController.V3.Client.Data;
+using CloudFoundry.CloudController.V2.Client.Data;
 using Newtonsoft.Json;
 using System;
 using System.CodeDom.Compiler;
@@ -22,15 +22,15 @@ using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace CloudFoundry.CloudController.V3.Client
+namespace CloudFoundry.CloudController.V2.Client
 {
     /// <summary>
-    /// ProcessesExperimental Endpoint
+    /// SharedDomains Endpoint
     /// </summary>
     [GeneratedCodeAttribute("cf-sdk-builder", "1.0.0.0")]
-    public partial class ProcessesExperimentalEndpoint : CloudFoundry.CloudController.V3.Client.Base.AbstractProcessesExperimentalEndpoint
+    public partial class SharedDomainsEndpoint : CloudFoundry.CloudController.V2.Client.Base.AbstractSharedDomainsEndpoint
     {
-        internal ProcessesExperimentalEndpoint(CloudFoundryClientV3 client,
+        internal SharedDomainsEndpoint(CloudFoundryClientV2 client,
             ISimpleHttpClient simpleHttpClient) : base(simpleHttpClient)
         {
             this.Client = client;
@@ -38,63 +38,39 @@ namespace CloudFoundry.CloudController.V3.Client
     }
 }
 
-namespace CloudFoundry.CloudController.V3.Client.Base
+namespace CloudFoundry.CloudController.V2.Client.Base
 {
     /// <summary>
-    /// Base abstract class for ProcessesExperimental Endpoint
+    /// Base abstract class for SharedDomains Endpoint
     /// </summary>
     [GeneratedCodeAttribute("cf-sdk-builder", "1.0.0.0")]
-    public abstract class AbstractProcessesExperimentalEndpoint : BaseEndpoint
+    public abstract class AbstractSharedDomainsEndpoint : BaseEndpoint
     {
         /// <summary>
         /// Initializes the class
         /// </summary>
-        protected AbstractProcessesExperimentalEndpoint(ISimpleHttpClient simpleHttpClient)
+        protected AbstractSharedDomainsEndpoint(ISimpleHttpClient simpleHttpClient)
             :base(simpleHttpClient)
         {
         }
 
         /// <summary>
-        /// Get a Process
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/processes__experimental_/get_a_process.html"</para>
+        /// List all Shared Domains
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/shared_domains/list_all_shared_domains.html"</para>
         /// </summary>
-        public async Task<GetProcessResponse> GetProcess(Guid? guid)
+        public async Task<PagedResponseCollection<ListAllSharedDomainsResponse>> ListAllSharedDomains()
         {
-            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/processes/{0}", guid);
-            var client = this.GetHttpClient();
-            client.Uri = uriBuilder.Uri;
-            client.Method = HttpMethod.Get;
-            var authHeader = await BuildAuthenticationHeader();
-            if (!string.IsNullOrWhiteSpace(authHeader.Key))
-            {
-                if (client.Headers.ContainsKey(authHeader.Key))
-                    client.Headers[authHeader.Key] = authHeader.Value;
-                else
-                    client.Headers.Add(authHeader);
-            }
-            var expectedReturnStatus = 200;
-            var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializeJson<GetProcessResponse>(await response.ReadContentAsStringAsync());
+            return await ListAllSharedDomains(new RequestOptions());
         }
 
         /// <summary>
-        /// List all Processes
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/processes__experimental_/list_all_processes.html"</para>
+        /// List all Shared Domains
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/shared_domains/list_all_shared_domains.html"</para>
         /// </summary>
-        public async Task<PagedResponseCollection<ListAllProcessesResponse>> ListAllProcesses()
-        {
-            return await ListAllProcesses(new RequestOptions());
-        }
-
-        /// <summary>
-        /// List all Processes
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/processes__experimental_/list_all_processes.html"</para>
-        /// </summary>
-        public async Task<PagedResponseCollection<ListAllProcessesResponse>> ListAllProcesses(RequestOptions options)
+        public async Task<PagedResponseCollection<ListAllSharedDomainsResponse>> ListAllSharedDomains(RequestOptions options)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = "/v3/processes";
+            uriBuilder.Path = "/v2/shared_domains";
             uriBuilder.Query = options.ToString();
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
@@ -109,20 +85,78 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializePage<ListAllProcessesResponse>(await response.ReadContentAsStringAsync(), this.Client);
+            return Utilities.DeserializePage<ListAllSharedDomainsResponse>(await response.ReadContentAsStringAsync(), this.Client);
         }
 
         /// <summary>
-        /// Scaling a Process
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/processes__experimental_/scaling_a_process.html"</para>
+        /// Retrieve a Particular Shared Domain
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/shared_domains/retrieve_a_particular_shared_domain.html"</para>
         /// </summary>
-        public async Task<ScalingProcessResponse> ScalingProcess(Guid? guid, ScalingProcessRequest value)
+        public async Task<RetrieveSharedDomainResponse> RetrieveSharedDomain(Guid? guid)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/processes/{0}/actions/scale", guid);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/shared_domains/{0}", guid);
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
-            client.Method = HttpMethod.Put;
+            client.Method = HttpMethod.Get;
+            var authHeader = await BuildAuthenticationHeader();
+            if (!string.IsNullOrWhiteSpace(authHeader.Key))
+            {
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
+            }
+            var expectedReturnStatus = 200;
+            var response = await this.SendAsync(client, expectedReturnStatus);
+            return Utilities.DeserializeJson<RetrieveSharedDomainResponse>(await response.ReadContentAsStringAsync());
+        }
+
+        /// <summary>
+        /// Filtering Shared Domains by name
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/shared_domains/filtering_shared_domains_by_name.html"</para>
+        /// </summary>
+        public async Task<PagedResponseCollection<FilterSharedDomainsByNameResponse>> FilterSharedDomainsByName()
+        {
+            return await FilterSharedDomainsByName(new RequestOptions());
+        }
+
+        /// <summary>
+        /// Filtering Shared Domains by name
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/shared_domains/filtering_shared_domains_by_name.html"</para>
+        /// </summary>
+        public async Task<PagedResponseCollection<FilterSharedDomainsByNameResponse>> FilterSharedDomainsByName(RequestOptions options)
+        {
+            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
+            uriBuilder.Path = "/v2/shared_domains";
+            uriBuilder.Query = options.ToString();
+            var client = this.GetHttpClient();
+            client.Uri = uriBuilder.Uri;
+            client.Method = HttpMethod.Get;
+            var authHeader = await BuildAuthenticationHeader();
+            if (!string.IsNullOrWhiteSpace(authHeader.Key))
+            {
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
+            }
+            var expectedReturnStatus = 200;
+            var response = await this.SendAsync(client, expectedReturnStatus);
+            return Utilities.DeserializePage<FilterSharedDomainsByNameResponse>(await response.ReadContentAsStringAsync(), this.Client);
+        }
+
+        /// <summary>
+        /// Create a Shared Domain
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/shared_domains/create_a_shared_domain.html"</para>
+        /// </summary>
+        public async Task<CreateSharedDomainResponse> CreateSharedDomain(CreateSharedDomainRequest value)
+        {
+            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
+            uriBuilder.Path = "/v2/shared_domains";
+            var client = this.GetHttpClient();
+            client.Uri = uriBuilder.Uri;
+            client.Method = HttpMethod.Post;
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
@@ -133,19 +167,19 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             }
             client.ContentType = "application/x-www-form-urlencoded";
             client.Content = ((string)JsonConvert.SerializeObject(value)).ConvertToStream();
-            var expectedReturnStatus = 200;
+            var expectedReturnStatus = 201;
             var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializeJson<ScalingProcessResponse>(await response.ReadContentAsStringAsync());
+            return Utilities.DeserializeJson<CreateSharedDomainResponse>(await response.ReadContentAsStringAsync());
         }
 
         /// <summary>
-        /// Terminating a Process instance
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/processes__experimental_/terminating_a_process_instance.html"</para>
+        /// Delete a Particular Shared Domain
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/shared_domains/delete_a_particular_shared_domain.html"</para>
         /// </summary>
-        public async Task TerminatingProcessInstance(Guid? guid, int? index)
+        public async Task DeleteSharedDomain(Guid? guid)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/processes/{0}/instances/{1}", guid, index);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/shared_domains/{0}", guid);
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
             client.Method = HttpMethod.Delete;
@@ -160,32 +194,6 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             client.ContentType = "application/x-www-form-urlencoded";
             var expectedReturnStatus = 204;
             var response = await this.SendAsync(client, expectedReturnStatus);
-        }
-
-        /// <summary>
-        /// Updating a Process
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/processes__experimental_/updating_a_process.html"</para>
-        /// </summary>
-        public async Task<UpdateProcessResponse> UpdateProcess(Guid? guid, UpdateProcessRequest value)
-        {
-            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/processes/{0}", guid);
-            var client = this.GetHttpClient();
-            client.Uri = uriBuilder.Uri;
-            client.Method = new HttpMethod("PATCH");
-            var authHeader = await BuildAuthenticationHeader();
-            if (!string.IsNullOrWhiteSpace(authHeader.Key))
-            {
-                if (client.Headers.ContainsKey(authHeader.Key))
-                    client.Headers[authHeader.Key] = authHeader.Value;
-                else
-                    client.Headers.Add(authHeader);
-            }
-            client.ContentType = "application/x-www-form-urlencoded";
-            client.Content = ((string)JsonConvert.SerializeObject(value)).ConvertToStream();
-            var expectedReturnStatus = 200;
-            var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializeJson<UpdateProcessResponse>(await response.ReadContentAsStringAsync());
         }
     }
 }

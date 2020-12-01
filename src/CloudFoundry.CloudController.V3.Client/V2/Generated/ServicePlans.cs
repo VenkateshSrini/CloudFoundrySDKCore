@@ -13,7 +13,7 @@
 
 using CloudFoundry.CloudController.Common;
 using CloudFoundry.CloudController.Common.Http;
-using CloudFoundry.CloudController.V3.Client.Data;
+using CloudFoundry.CloudController.V2.Client.Data;
 using Newtonsoft.Json;
 using System;
 using System.CodeDom.Compiler;
@@ -22,15 +22,15 @@ using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace CloudFoundry.CloudController.V3.Client
+namespace CloudFoundry.CloudController.V2.Client
 {
     /// <summary>
-    /// ProcessesExperimental Endpoint
+    /// ServicePlans Endpoint
     /// </summary>
     [GeneratedCodeAttribute("cf-sdk-builder", "1.0.0.0")]
-    public partial class ProcessesExperimentalEndpoint : CloudFoundry.CloudController.V3.Client.Base.AbstractProcessesExperimentalEndpoint
+    public partial class ServicePlansEndpoint : CloudFoundry.CloudController.V2.Client.Base.AbstractServicePlansEndpoint
     {
-        internal ProcessesExperimentalEndpoint(CloudFoundryClientV3 client,
+        internal ServicePlansEndpoint(CloudFoundryClientV2 client,
             ISimpleHttpClient simpleHttpClient) : base(simpleHttpClient)
         {
             this.Client = client;
@@ -38,33 +38,32 @@ namespace CloudFoundry.CloudController.V3.Client
     }
 }
 
-namespace CloudFoundry.CloudController.V3.Client.Base
+namespace CloudFoundry.CloudController.V2.Client.Base
 {
     /// <summary>
-    /// Base abstract class for ProcessesExperimental Endpoint
+    /// Base abstract class for ServicePlans Endpoint
     /// </summary>
     [GeneratedCodeAttribute("cf-sdk-builder", "1.0.0.0")]
-    public abstract class AbstractProcessesExperimentalEndpoint : BaseEndpoint
+    public abstract class AbstractServicePlansEndpoint : BaseEndpoint
     {
         /// <summary>
         /// Initializes the class
         /// </summary>
-        protected AbstractProcessesExperimentalEndpoint(ISimpleHttpClient simpleHttpClient)
-            :base(simpleHttpClient)
+        protected AbstractServicePlansEndpoint(ISimpleHttpClient simpleHttpClient):base(simpleHttpClient)
         {
         }
 
         /// <summary>
-        /// Get a Process
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/processes__experimental_/get_a_process.html"</para>
+        /// Updating a Service Plan
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_plans/updating_a_service_plan.html"</para>
         /// </summary>
-        public async Task<GetProcessResponse> GetProcess(Guid? guid)
+        public async Task<UpdateServicePlanResponse> UpdateServicePlan(UpdateServicePlanRequest value)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/processes/{0}", guid);
+            uriBuilder.Path = "/v2/service_plans";
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
-            client.Method = HttpMethod.Get;
+            client.Method = HttpMethod.Put;
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
@@ -73,28 +72,30 @@ namespace CloudFoundry.CloudController.V3.Client.Base
                 else
                     client.Headers.Add(authHeader);
             }
-            var expectedReturnStatus = 200;
+            client.ContentType = "application/x-www-form-urlencoded";
+            client.Content = ((string)JsonConvert.SerializeObject(value)).ConvertToStream();
+            var expectedReturnStatus = 201;
             var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializeJson<GetProcessResponse>(await response.ReadContentAsStringAsync());
+            return Utilities.DeserializeJson<UpdateServicePlanResponse>(await response.ReadContentAsStringAsync());
         }
 
         /// <summary>
-        /// List all Processes
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/processes__experimental_/list_all_processes.html"</para>
+        /// List all Service Instances for the Service Plan
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_plans/list_all_service_instances_for_the_service_plan.html"</para>
         /// </summary>
-        public async Task<PagedResponseCollection<ListAllProcessesResponse>> ListAllProcesses()
+        public async Task<PagedResponseCollection<ListAllServiceInstancesForServicePlanResponse>> ListAllServiceInstancesForServicePlan(Guid? guid)
         {
-            return await ListAllProcesses(new RequestOptions());
+            return await ListAllServiceInstancesForServicePlan(guid, new RequestOptions());
         }
 
         /// <summary>
-        /// List all Processes
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/processes__experimental_/list_all_processes.html"</para>
+        /// List all Service Instances for the Service Plan
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_plans/list_all_service_instances_for_the_service_plan.html"</para>
         /// </summary>
-        public async Task<PagedResponseCollection<ListAllProcessesResponse>> ListAllProcesses(RequestOptions options)
+        public async Task<PagedResponseCollection<ListAllServiceInstancesForServicePlanResponse>> ListAllServiceInstancesForServicePlan(Guid? guid, RequestOptions options)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = "/v3/processes";
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/service_plans/{0}/service_instances", guid);
             uriBuilder.Query = options.ToString();
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
@@ -109,20 +110,30 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializePage<ListAllProcessesResponse>(await response.ReadContentAsStringAsync(), this.Client);
+            return Utilities.DeserializePage<ListAllServiceInstancesForServicePlanResponse>(await response.ReadContentAsStringAsync(), this.Client);
         }
 
         /// <summary>
-        /// Scaling a Process
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/processes__experimental_/scaling_a_process.html"</para>
+        /// List all Service Plans
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_plans/list_all_service_plans.html"</para>
         /// </summary>
-        public async Task<ScalingProcessResponse> ScalingProcess(Guid? guid, ScalingProcessRequest value)
+        public async Task<PagedResponseCollection<ListAllServicePlansResponse>> ListAllServicePlans()
+        {
+            return await ListAllServicePlans(new RequestOptions());
+        }
+
+        /// <summary>
+        /// List all Service Plans
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_plans/list_all_service_plans.html"</para>
+        /// </summary>
+        public async Task<PagedResponseCollection<ListAllServicePlansResponse>> ListAllServicePlans(RequestOptions options)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/processes/{0}/actions/scale", guid);
+            uriBuilder.Path = "/v2/service_plans";
+            uriBuilder.Query = options.ToString();
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
-            client.Method = HttpMethod.Put;
+            client.Method = HttpMethod.Get;
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
@@ -131,21 +142,19 @@ namespace CloudFoundry.CloudController.V3.Client.Base
                 else
                     client.Headers.Add(authHeader);
             }
-            client.ContentType = "application/x-www-form-urlencoded";
-            client.Content = ((string)JsonConvert.SerializeObject(value)).ConvertToStream();
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializeJson<ScalingProcessResponse>(await response.ReadContentAsStringAsync());
+            return Utilities.DeserializePage<ListAllServicePlansResponse>(await response.ReadContentAsStringAsync(), this.Client);
         }
 
         /// <summary>
-        /// Terminating a Process instance
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/processes__experimental_/terminating_a_process_instance.html"</para>
+        /// Delete a Particular Service Plans
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_plans/delete_a_particular_service_plans.html"</para>
         /// </summary>
-        public async Task TerminatingProcessInstance(Guid? guid, int? index)
+        public async Task DeleteServicePlans(Guid? guid)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/processes/{0}/instances/{1}", guid, index);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/service_plans/{0}", guid);
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
             client.Method = HttpMethod.Delete;
@@ -163,16 +172,16 @@ namespace CloudFoundry.CloudController.V3.Client.Base
         }
 
         /// <summary>
-        /// Updating a Process
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/processes__experimental_/updating_a_process.html"</para>
+        /// Retrieve a Particular Service Plan
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_plans/retrieve_a_particular_service_plan.html"</para>
         /// </summary>
-        public async Task<UpdateProcessResponse> UpdateProcess(Guid? guid, UpdateProcessRequest value)
+        public async Task<RetrieveServicePlanResponse> RetrieveServicePlan(Guid? guid)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/processes/{0}", guid);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/service_plans/{0}", guid);
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
-            client.Method = new HttpMethod("PATCH");
+            client.Method = HttpMethod.Get;
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
@@ -181,11 +190,9 @@ namespace CloudFoundry.CloudController.V3.Client.Base
                 else
                     client.Headers.Add(authHeader);
             }
-            client.ContentType = "application/x-www-form-urlencoded";
-            client.Content = ((string)JsonConvert.SerializeObject(value)).ConvertToStream();
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializeJson<UpdateProcessResponse>(await response.ReadContentAsStringAsync());
+            return Utilities.DeserializeJson<RetrieveServicePlanResponse>(await response.ReadContentAsStringAsync());
         }
     }
 }

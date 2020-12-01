@@ -1,4 +1,4 @@
-﻿namespace CloudFoundry.CloudController.V3.Client
+﻿namespace CloudFoundry.CloudController.V2.Client
 {
     using System;
     using System.Collections.Generic;
@@ -21,7 +21,8 @@
         /// <value>
         /// The page properties.
         /// </value>
-        public Pagination Pagination { get; set; }
+        
+        public PageProperties Properties { get; set; }
 
         internal List<T> Resources { get; set; }
 
@@ -54,7 +55,7 @@
             Justification = "This method makes an http request to get the previous page of results.")]
         public async Task<PagedResponseCollection<T>> GetNextPage()
         {
-            if (this.Pagination.Next != null)
+            if (this.Properties.NextUrl != null)
             {
                 return await this.Get(
                     new Uri(
@@ -62,7 +63,7 @@
                         CultureInfo.InvariantCulture, 
                         "{0}{1}", 
                         this.Client.CloudTarget,
-                        this.Pagination.Next.Href)));
+                        this.Properties.NextUrl)));
             }
             else
             {
@@ -78,7 +79,7 @@
             Justification = "This method makes an http request to get the previous page of results.")]
         public async Task<PagedResponseCollection<T>> GetPreviousPage()
         {
-            if (this.Pagination.Previous != null)
+            if (this.Properties.PreviousUrl != null)
             {
                 return await this.Get(
                     new Uri(
@@ -86,7 +87,7 @@
                         CultureInfo.InvariantCulture,
                         "{0}{1}",
                         this.Client.CloudTarget,
-                        this.Pagination.Previous.Href)));
+                        this.Properties.PreviousUrl)));
             }
             else
             {
@@ -100,7 +101,7 @@
         /// <returns>A paged collection</returns>
         public bool IsLastPage()
         {
-            return this.Pagination.Next != null;
+            return this.Properties.NextUrl != null;
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

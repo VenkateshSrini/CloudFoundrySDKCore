@@ -5,19 +5,34 @@ namespace CloudFoundry.CloudController.V3.Client
     using System.Threading;
     using System.Threading.Tasks;
     using CloudFoundry.CloudController.Common.Http;
+    using CloudFoundry.CloudController.V2.Client;
+    using CloudFoundry.CloudController.V3.Client.common.Configuration;
     using CloudFoundry.UAA;
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
+    using Steeltoe.Extensions.Configuration.CloudFoundry;
 
     /// <summary>
     /// This is the Cloud Foundry client. To use it, you need a Cloud Foundry endpoint.
     /// </summary>
-    public sealed class CloudFoundryClient : CloudFoundry.CloudController.Common.CloudFoundryClient, IUAA
+    public sealed class CloudFoundryClientV3 : CloudFoundry.CloudController.Common.CloudFoundryClient, IUAA
     {
-                /// <summary>
+        ISimpleHttpClient _simpleHttpClient;
+        public ISimpleHttpClient SimpleHttp { get => _simpleHttpClient; private set => _simpleHttpClient = value; }
+        public CloudFoundryClientV3(IOptions<CloudFoundryServicesOptions> cfOptions,
+            IOptions<CfServiceBinding> cfServiceOptions, ILogger<CloudFoundryClientV3> logger,
+            ISimpleHttpClient simpleHttpClient,CloudFoundryClientV2 v2Client) : base(cfOptions, cfServiceOptions, logger)
+        {
+            SimpleHttp = simpleHttpClient;
+            V2 = v2Client;
+            this.InitEndpoints();
+        }
+        /// <summary>
         /// Initializes a new instance of the <see cref="CloudFoundryClient"/> class.
         /// </summary>
         /// <param name="cloudTarget">The cloud target.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        public CloudFoundryClient(Uri cloudTarget, CancellationToken cancellationToken)
+        public CloudFoundryClientV3(Uri cloudTarget, CancellationToken cancellationToken)
             : this(cloudTarget, cancellationToken, null, false)
         {
         }
@@ -28,7 +43,7 @@ namespace CloudFoundry.CloudController.V3.Client
         /// <param name="cloudTarget">The cloud target.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <param name="httpProxy">The HTTP proxy.</param>
-        public CloudFoundryClient(Uri cloudTarget, CancellationToken cancellationToken, Uri httpProxy)
+        public CloudFoundryClientV3(Uri cloudTarget, CancellationToken cancellationToken, Uri httpProxy)
             : this(cloudTarget, cancellationToken, httpProxy, false)
         {
         }
@@ -40,7 +55,7 @@ namespace CloudFoundry.CloudController.V3.Client
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <param name="httpProxy">The HTTP proxy.</param>
         /// <param name="skipCertificateValidation">if set to <c>true</c> it will skip TLS certificate validation for HTTP requests.</param>
-        public CloudFoundryClient(Uri cloudTarget, CancellationToken cancellationToken, Uri httpProxy, bool skipCertificateValidation) 
+        public CloudFoundryClientV3(Uri cloudTarget, CancellationToken cancellationToken, Uri httpProxy, bool skipCertificateValidation) 
             : this(cloudTarget, cancellationToken, httpProxy, skipCertificateValidation, null)
         {
         }
@@ -53,7 +68,7 @@ namespace CloudFoundry.CloudController.V3.Client
         /// <param name="httpProxy">The HTTP proxy.</param>
         /// <param name="skipCertificateValidation">if set to <c>true</c> it will skip TLS certificate validation for HTTP requests.</param>
         /// <param name="authorizationUrl">Authorization Endpoint</param>
-        public CloudFoundryClient(Uri cloudTarget, CancellationToken cancellationToken, Uri httpProxy, bool skipCertificateValidation, Uri authorizationUrl)
+        public CloudFoundryClientV3(Uri cloudTarget, CancellationToken cancellationToken, Uri httpProxy, bool skipCertificateValidation, Uri authorizationUrl)
             : this(cloudTarget, cancellationToken, httpProxy, skipCertificateValidation, authorizationUrl, false)
         {
         }
@@ -67,7 +82,7 @@ namespace CloudFoundry.CloudController.V3.Client
         /// <param name="skipCertificateValidation">if set to <c>true</c> it will skip TLS certificate validation for HTTP requests.</param>
         /// <param name="authorizationUrl">Authorization Endpoint</param>
         /// <param name="useStrictStatusCodeChecking">throw exception if the successful http status code returned from the server does not match the expected code</param>
-        public CloudFoundryClient(Uri cloudTarget, CancellationToken cancellationToken, Uri httpProxy, bool skipCertificateValidation, Uri authorizationUrl, bool useStrictStatusCodeChecking)
+        public CloudFoundryClientV3(Uri cloudTarget, CancellationToken cancellationToken, Uri httpProxy, bool skipCertificateValidation, Uri authorizationUrl, bool useStrictStatusCodeChecking)
             : this(cloudTarget, cancellationToken, httpProxy, skipCertificateValidation, authorizationUrl, useStrictStatusCodeChecking, SimpleHttpClient.DefaultTimeout)
         {
         }
@@ -82,10 +97,10 @@ namespace CloudFoundry.CloudController.V3.Client
         /// <param name="authorizationUrl">Authorization Endpoint</param>
         /// <param name="useStrictStatusCodeChecking">throw exception if the successful http status code returned from the server does not match the expected code</param>
         /// <param name="requestTimeout">Http requests timeout</param>
-        public CloudFoundryClient(Uri cloudTarget, CancellationToken cancellationToken, Uri httpProxy, bool skipCertificateValidation, Uri authorizationUrl, bool useStrictStatusCodeChecking, TimeSpan requestTimeout)
+        public CloudFoundryClientV3(Uri cloudTarget, CancellationToken cancellationToken, Uri httpProxy, bool skipCertificateValidation, Uri authorizationUrl, bool useStrictStatusCodeChecking, TimeSpan requestTimeout)
             : base(cloudTarget, cancellationToken, httpProxy, skipCertificateValidation, authorizationUrl, useStrictStatusCodeChecking, requestTimeout)
         {
-            this.V2 = new V2.Client.CloudFoundryClient(cloudTarget, cancellationToken, httpProxy, skipCertificateValidation, authorizationUrl, useStrictStatusCodeChecking, requestTimeout);
+            this.V2 = new CloudFoundryClientV2(cloudTarget, cancellationToken, httpProxy, skipCertificateValidation, authorizationUrl, useStrictStatusCodeChecking, requestTimeout);
         }
 
         /// <summary>
@@ -130,6 +145,7 @@ namespace CloudFoundry.CloudController.V3.Client
         {
             get
             {
+                UAAClient = UAAClient ?? V2.UAAClient;
                 if (this.UAAClient == null)
                 {
                     return string.Empty;
@@ -145,7 +161,7 @@ namespace CloudFoundry.CloudController.V3.Client
         /// <summary>
         /// Instance of CloudFoundry V2 Client 
         /// </summary>
-        public CloudController.V2.Client.CloudFoundryClient V2 { get; private set; }
+        public CloudController.V2.Client.CloudFoundryClientV2 V2 { get; private set; }
 
         /// <summary>
         /// Login using the specified credentials.
@@ -239,11 +255,11 @@ namespace CloudFoundry.CloudController.V3.Client
             Justification = "Developers using the SDK should find it useful to have a 1-to-1 list of all documented Cloud Foundry endpoints.")]
         public override void InitEndpoints()
         {
-            this.AppsExperimental = new AppsExperimentalEndpoint(this);
-            this.DropletsExperimental = new DropletsExperimentalEndpoint(this);
-            this.PackagesExperimental = new PackagesExperimentalEndpoint(this);
-            this.ProcessesExperimental = new ProcessesExperimentalEndpoint(this);
-            this.TaskResource = new TaskResourceEndPoint(this);
+            this.AppsExperimental = new AppsExperimentalEndpoint(this, SimpleHttp);
+            this.DropletsExperimental = new DropletsExperimentalEndpoint(this, SimpleHttp);
+            this.PackagesExperimental = new PackagesExperimentalEndpoint(this, SimpleHttp);
+            this.ProcessesExperimental = new ProcessesExperimentalEndpoint(this, SimpleHttp);
+            this.TaskResource = new TaskResourceEndPoint(this, SimpleHttp);
         }
     }
 }

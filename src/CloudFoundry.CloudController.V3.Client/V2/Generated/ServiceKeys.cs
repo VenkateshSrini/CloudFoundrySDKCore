@@ -13,7 +13,7 @@
 
 using CloudFoundry.CloudController.Common;
 using CloudFoundry.CloudController.Common.Http;
-using CloudFoundry.CloudController.V3.Client.Data;
+using CloudFoundry.CloudController.V2.Client.Data;
 using Newtonsoft.Json;
 using System;
 using System.CodeDom.Compiler;
@@ -22,15 +22,15 @@ using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace CloudFoundry.CloudController.V3.Client
+namespace CloudFoundry.CloudController.V2.Client
 {
     /// <summary>
-    /// AppRoutesExperimental Endpoint
+    /// ServiceKeys Endpoint
     /// </summary>
     [GeneratedCodeAttribute("cf-sdk-builder", "1.0.0.0")]
-    public partial class AppRoutesExperimentalEndpoint : CloudFoundry.CloudController.V3.Client.Base.AbstractAppRoutesExperimentalEndpoint
+    public partial class ServiceKeysEndpoint : CloudFoundry.CloudController.V2.Client.Base.AbstractServiceKeysEndpoint
     {
-        internal AppRoutesExperimentalEndpoint(CloudFoundryClientV3 client,
+        internal ServiceKeysEndpoint(CloudFoundryClientV2 client,
             ISimpleHttpClient simpleHttpClient) : base(simpleHttpClient)
         {
             this.Client = client;
@@ -38,38 +38,39 @@ namespace CloudFoundry.CloudController.V3.Client
     }
 }
 
-namespace CloudFoundry.CloudController.V3.Client.Base
+namespace CloudFoundry.CloudController.V2.Client.Base
 {
     /// <summary>
-    /// Base abstract class for AppRoutesExperimental Endpoint
+    /// Base abstract class for ServiceKeys Endpoint
     /// </summary>
     [GeneratedCodeAttribute("cf-sdk-builder", "1.0.0.0")]
-    public abstract class AbstractAppRoutesExperimentalEndpoint : BaseEndpoint
+    public abstract class AbstractServiceKeysEndpoint : BaseEndpoint
     {
         /// <summary>
         /// Initializes the class
         /// </summary>
-        protected AbstractAppRoutesExperimentalEndpoint(ISimpleHttpClient simpleHttpClient):base(simpleHttpClient)
+        protected AbstractServiceKeysEndpoint(ISimpleHttpClient simpleHttpClient)
+            :base(simpleHttpClient)
         {
         }
 
         /// <summary>
-        /// List routes
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/app_routes__experimental_/list_routes.html"</para>
+        /// List all Service Keys
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_keys/list_all_service_keys.html"</para>
         /// </summary>
-        public async Task<PagedResponseCollection<ListRoutesResponse>> ListRoutes(Guid? guid)
+        public async Task<PagedResponseCollection<ListAllServiceKeysResponse>> ListAllServiceKeys()
         {
-            return await ListRoutes(guid, new RequestOptions());
+            return await ListAllServiceKeys(new RequestOptions());
         }
 
         /// <summary>
-        /// List routes
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/app_routes__experimental_/list_routes.html"</para>
+        /// List all Service Keys
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_keys/list_all_service_keys.html"</para>
         /// </summary>
-        public async Task<PagedResponseCollection<ListRoutesResponse>> ListRoutes(Guid? guid, RequestOptions options)
+        public async Task<PagedResponseCollection<ListAllServiceKeysResponse>> ListAllServiceKeys(RequestOptions options)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/apps/{0}/routes", guid);
+            uriBuilder.Path = "/v2/service_keys";
             uriBuilder.Query = options.ToString();
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
@@ -84,20 +85,20 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializePage<ListRoutesResponse>(await response.ReadContentAsStringAsync(), this.Client);
+            return Utilities.DeserializePage<ListAllServiceKeysResponse>(await response.ReadContentAsStringAsync(), this.Client);
         }
 
         /// <summary>
-        /// Map a Route
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/app_routes__experimental_/map_a_route.html"</para>
+        /// Create a Service Key
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_keys/create_a_service_key.html"</para>
         /// </summary>
-        public async Task MapRoute(Guid? guid, MapRouteRequest value)
+        public async Task<CreateServiceKeyResponse> CreateServiceKey(CreateServiceKeyRequest value)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/apps/{0}/routes", guid);
+            uriBuilder.Path = "/v2/service_keys";
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
-            client.Method = HttpMethod.Put;
+            client.Method = HttpMethod.Post;
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
@@ -108,18 +109,43 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             }
             client.ContentType = "application/x-www-form-urlencoded";
             client.Content = ((string)JsonConvert.SerializeObject(value)).ConvertToStream();
-            var expectedReturnStatus = 204;
+            var expectedReturnStatus = 201;
             var response = await this.SendAsync(client, expectedReturnStatus);
+            return Utilities.DeserializeJson<CreateServiceKeyResponse>(await response.ReadContentAsStringAsync());
         }
 
         /// <summary>
-        /// Unmap a Route
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/app_routes__experimental_/unmap_a_route.html"</para>
+        /// Retrieve a Particular Service Key
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_keys/retrieve_a_particular_service_key.html"</para>
         /// </summary>
-        public async Task UnmapRoute(Guid? guid, UnmapRouteRequest value)
+        public async Task<RetrieveServiceKeyResponse> RetrieveServiceKey(Guid? guid)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/apps/{0}/routes", guid);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/service_keys/{0}", guid);
+            var client = this.GetHttpClient();
+            client.Uri = uriBuilder.Uri;
+            client.Method = HttpMethod.Get;
+            var authHeader = await BuildAuthenticationHeader();
+            if (!string.IsNullOrWhiteSpace(authHeader.Key))
+            {
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
+            }
+            var expectedReturnStatus = 200;
+            var response = await this.SendAsync(client, expectedReturnStatus);
+            return Utilities.DeserializeJson<RetrieveServiceKeyResponse>(await response.ReadContentAsStringAsync());
+        }
+
+        /// <summary>
+        /// Delete a Particular Service Key
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_keys/delete_a_particular_service_key.html"</para>
+        /// </summary>
+        public async Task DeleteServiceKey(Guid? guid)
+        {
+            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/service_keys/{0}", guid);
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
             client.Method = HttpMethod.Delete;
@@ -132,7 +158,6 @@ namespace CloudFoundry.CloudController.V3.Client.Base
                     client.Headers.Add(authHeader);
             }
             client.ContentType = "application/x-www-form-urlencoded";
-            client.Content = ((string)JsonConvert.SerializeObject(value)).ConvertToStream();
             var expectedReturnStatus = 204;
             var response = await this.SendAsync(client, expectedReturnStatus);
         }

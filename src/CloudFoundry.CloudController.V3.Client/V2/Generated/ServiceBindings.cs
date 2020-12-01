@@ -13,7 +13,7 @@
 
 using CloudFoundry.CloudController.Common;
 using CloudFoundry.CloudController.Common.Http;
-using CloudFoundry.CloudController.V3.Client.Data;
+using CloudFoundry.CloudController.V2.Client.Data;
 using Newtonsoft.Json;
 using System;
 using System.CodeDom.Compiler;
@@ -22,15 +22,15 @@ using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace CloudFoundry.CloudController.V3.Client
+namespace CloudFoundry.CloudController.V2.Client
 {
     /// <summary>
-    /// DropletsExperimental Endpoint
+    /// ServiceBindings Endpoint
     /// </summary>
     [GeneratedCodeAttribute("cf-sdk-builder", "1.0.0.0")]
-    public partial class DropletsExperimentalEndpoint : CloudFoundry.CloudController.V3.Client.Base.AbstractDropletsExperimentalEndpoint
+    public partial class ServiceBindingsEndpoint : CloudFoundry.CloudController.V2.Client.Base.AbstractServiceBindingsEndpoint
     {
-        internal DropletsExperimentalEndpoint(CloudFoundryClientV3 client,
+        internal ServiceBindingsEndpoint(CloudFoundryClientV2 client,
             ISimpleHttpClient simpleHttpClient) : base(simpleHttpClient)
         {
             this.Client = client;
@@ -38,30 +38,87 @@ namespace CloudFoundry.CloudController.V3.Client
     }
 }
 
-namespace CloudFoundry.CloudController.V3.Client.Base
+namespace CloudFoundry.CloudController.V2.Client.Base
 {
     /// <summary>
-    /// Base abstract class for DropletsExperimental Endpoint
+    /// Base abstract class for ServiceBindings Endpoint
     /// </summary>
     [GeneratedCodeAttribute("cf-sdk-builder", "1.0.0.0")]
-    public abstract class AbstractDropletsExperimentalEndpoint : BaseEndpoint
+    public abstract class AbstractServiceBindingsEndpoint : BaseEndpoint
     {
         /// <summary>
         /// Initializes the class
         /// </summary>
-        protected AbstractDropletsExperimentalEndpoint(ISimpleHttpClient simpleHttpClient)
-            :base(simpleHttpClient)
+        protected AbstractServiceBindingsEndpoint(ISimpleHttpClient simpleHttpClient):base(simpleHttpClient)
         {
         }
 
         /// <summary>
-        /// Delete a Droplet
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/droplets__experimental_/delete_a_droplet.html"</para>
+        /// List all Service Bindings
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_bindings/list_all_service_bindings.html"</para>
         /// </summary>
-        public async Task DeleteDroplet(Guid? guid)
+        public async Task<PagedResponseCollection<ListAllServiceBindingsResponse>> ListAllServiceBindings()
+        {
+            return await ListAllServiceBindings(new RequestOptions());
+        }
+
+        /// <summary>
+        /// List all Service Bindings
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_bindings/list_all_service_bindings.html"</para>
+        /// </summary>
+        public async Task<PagedResponseCollection<ListAllServiceBindingsResponse>> ListAllServiceBindings(RequestOptions options)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/droplets/{0}", guid);
+            uriBuilder.Path = "/v2/service_bindings";
+            uriBuilder.Query = options.ToString();
+            var client = this.GetHttpClient();
+            client.Uri = uriBuilder.Uri;
+            client.Method = HttpMethod.Get;
+            var authHeader = await BuildAuthenticationHeader();
+            if (!string.IsNullOrWhiteSpace(authHeader.Key))
+            {
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
+            }
+            var expectedReturnStatus = 200;
+            var response = await this.SendAsync(client, expectedReturnStatus);
+            return Utilities.DeserializePage<ListAllServiceBindingsResponse>(await response.ReadContentAsStringAsync(), this.Client);
+        }
+
+        /// <summary>
+        /// Retrieve a Particular Service Binding
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_bindings/retrieve_a_particular_service_binding.html"</para>
+        /// </summary>
+        public async Task<RetrieveServiceBindingResponse> RetrieveServiceBinding(Guid? guid)
+        {
+            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/service_bindings/{0}", guid);
+            var client = this.GetHttpClient();
+            client.Uri = uriBuilder.Uri;
+            client.Method = HttpMethod.Get;
+            var authHeader = await BuildAuthenticationHeader();
+            if (!string.IsNullOrWhiteSpace(authHeader.Key))
+            {
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
+            }
+            var expectedReturnStatus = 200;
+            var response = await this.SendAsync(client, expectedReturnStatus);
+            return Utilities.DeserializeJson<RetrieveServiceBindingResponse>(await response.ReadContentAsStringAsync());
+        }
+
+        /// <summary>
+        /// Delete a Particular Service Binding
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_bindings/delete_a_particular_service_binding.html"</para>
+        /// </summary>
+        public async Task DeleteServiceBinding(Guid? guid)
+        {
+            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/service_bindings/{0}", guid);
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
             client.Method = HttpMethod.Delete;
@@ -79,26 +136,16 @@ namespace CloudFoundry.CloudController.V3.Client.Base
         }
 
         /// <summary>
-        /// Filters Droplets by states, app_guids
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/droplets__experimental_/filters_droplets_by_states,_app_guids.html"</para>
+        /// Create a Service Binding
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_bindings/create_a_service_binding.html"</para>
         /// </summary>
-        public async Task<PagedResponseCollection<FiltersDropletsByStatesAppGuidsResponse>> FiltersDropletsByStatesAppGuids()
-        {
-            return await FiltersDropletsByStatesAppGuids(new RequestOptions());
-        }
-
-        /// <summary>
-        /// Filters Droplets by states, app_guids
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/droplets__experimental_/filters_droplets_by_states,_app_guids.html"</para>
-        /// </summary>
-        public async Task<PagedResponseCollection<FiltersDropletsByStatesAppGuidsResponse>> FiltersDropletsByStatesAppGuids(RequestOptions options)
+        public async Task<CreateServiceBindingResponse> CreateServiceBinding(CreateServiceBindingRequest value)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = "/v3/droplets";
-            uriBuilder.Query = options.ToString();
+            uriBuilder.Path = "/v2/service_bindings";
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
-            client.Method = HttpMethod.Get;
+            client.Method = HttpMethod.Post;
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
@@ -107,67 +154,11 @@ namespace CloudFoundry.CloudController.V3.Client.Base
                 else
                     client.Headers.Add(authHeader);
             }
-            var expectedReturnStatus = 200;
+            client.ContentType = "application/x-www-form-urlencoded";
+            client.Content = ((string)JsonConvert.SerializeObject(value)).ConvertToStream();
+            var expectedReturnStatus = 201;
             var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializePage<FiltersDropletsByStatesAppGuidsResponse>(await response.ReadContentAsStringAsync(), this.Client);
-        }
-
-        /// <summary>
-        /// Get a Droplet
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/droplets__experimental_/get_a_droplet.html"</para>
-        /// </summary>
-        public async Task<GetDropletResponse> GetDroplet(Guid? guid)
-        {
-            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/droplets/{0}", guid);
-            var client = this.GetHttpClient();
-            client.Uri = uriBuilder.Uri;
-            client.Method = HttpMethod.Get;
-            var authHeader = await BuildAuthenticationHeader();
-            if (!string.IsNullOrWhiteSpace(authHeader.Key))
-            {
-                if (client.Headers.ContainsKey(authHeader.Key))
-                    client.Headers[authHeader.Key] = authHeader.Value;
-                else
-                    client.Headers.Add(authHeader);
-            }
-            var expectedReturnStatus = 200;
-            var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializeJson<GetDropletResponse>(await response.ReadContentAsStringAsync());
-        }
-
-        /// <summary>
-        /// List all Droplets
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/droplets__experimental_/list_all_droplets.html"</para>
-        /// </summary>
-        public async Task<PagedResponseCollection<ListAllDropletsResponse>> ListAllDroplets()
-        {
-            return await ListAllDroplets(new RequestOptions());
-        }
-
-        /// <summary>
-        /// List all Droplets
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/droplets__experimental_/list_all_droplets.html"</para>
-        /// </summary>
-        public async Task<PagedResponseCollection<ListAllDropletsResponse>> ListAllDroplets(RequestOptions options)
-        {
-            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = "/v3/droplets";
-            uriBuilder.Query = options.ToString();
-            var client = this.GetHttpClient();
-            client.Uri = uriBuilder.Uri;
-            client.Method = HttpMethod.Get;
-            var authHeader = await BuildAuthenticationHeader();
-            if (!string.IsNullOrWhiteSpace(authHeader.Key))
-            {
-                if (client.Headers.ContainsKey(authHeader.Key))
-                    client.Headers[authHeader.Key] = authHeader.Value;
-                else
-                    client.Headers.Add(authHeader);
-            }
-            var expectedReturnStatus = 200;
-            var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializePage<ListAllDropletsResponse>(await response.ReadContentAsStringAsync(), this.Client);
+            return Utilities.DeserializeJson<CreateServiceBindingResponse>(await response.ReadContentAsStringAsync());
         }
     }
 }

@@ -13,7 +13,7 @@
 
 using CloudFoundry.CloudController.Common;
 using CloudFoundry.CloudController.Common.Http;
-using CloudFoundry.CloudController.V3.Client.Data;
+using CloudFoundry.CloudController.V2.Client.Data;
 using Newtonsoft.Json;
 using System;
 using System.CodeDom.Compiler;
@@ -22,15 +22,15 @@ using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace CloudFoundry.CloudController.V3.Client
+namespace CloudFoundry.CloudController.V2.Client
 {
     /// <summary>
-    /// ProcessesExperimental Endpoint
+    /// ServiceBrokers Endpoint
     /// </summary>
     [GeneratedCodeAttribute("cf-sdk-builder", "1.0.0.0")]
-    public partial class ProcessesExperimentalEndpoint : CloudFoundry.CloudController.V3.Client.Base.AbstractProcessesExperimentalEndpoint
+    public partial class ServiceBrokersEndpoint : CloudFoundry.CloudController.V2.Client.Base.AbstractServiceBrokersEndpoint
     {
-        internal ProcessesExperimentalEndpoint(CloudFoundryClientV3 client,
+        internal ServiceBrokersEndpoint(CloudFoundryClientV2 client,
             ISimpleHttpClient simpleHttpClient) : base(simpleHttpClient)
         {
             this.Client = client;
@@ -38,30 +38,29 @@ namespace CloudFoundry.CloudController.V3.Client
     }
 }
 
-namespace CloudFoundry.CloudController.V3.Client.Base
+namespace CloudFoundry.CloudController.V2.Client.Base
 {
     /// <summary>
-    /// Base abstract class for ProcessesExperimental Endpoint
+    /// Base abstract class for ServiceBrokers Endpoint
     /// </summary>
     [GeneratedCodeAttribute("cf-sdk-builder", "1.0.0.0")]
-    public abstract class AbstractProcessesExperimentalEndpoint : BaseEndpoint
+    public abstract class AbstractServiceBrokersEndpoint : BaseEndpoint
     {
         /// <summary>
         /// Initializes the class
         /// </summary>
-        protected AbstractProcessesExperimentalEndpoint(ISimpleHttpClient simpleHttpClient)
-            :base(simpleHttpClient)
+        protected AbstractServiceBrokersEndpoint(ISimpleHttpClient simpleHttpClient):base(simpleHttpClient)
         {
         }
 
         /// <summary>
-        /// Get a Process
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/processes__experimental_/get_a_process.html"</para>
+        /// Retrieve a Particular Service Broker
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_brokers/retrieve_a_particular_service_broker.html"</para>
         /// </summary>
-        public async Task<GetProcessResponse> GetProcess(Guid? guid)
+        public async Task<RetrieveServiceBrokerResponse> RetrieveServiceBroker(Guid? guid)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/processes/{0}", guid);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/service_brokers/{0}", guid);
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
             client.Method = HttpMethod.Get;
@@ -75,77 +74,17 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializeJson<GetProcessResponse>(await response.ReadContentAsStringAsync());
+            return Utilities.DeserializeJson<RetrieveServiceBrokerResponse>(await response.ReadContentAsStringAsync());
         }
 
         /// <summary>
-        /// List all Processes
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/processes__experimental_/list_all_processes.html"</para>
+        /// Delete a Particular Service Broker
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_brokers/delete_a_particular_service_broker.html"</para>
         /// </summary>
-        public async Task<PagedResponseCollection<ListAllProcessesResponse>> ListAllProcesses()
-        {
-            return await ListAllProcesses(new RequestOptions());
-        }
-
-        /// <summary>
-        /// List all Processes
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/processes__experimental_/list_all_processes.html"</para>
-        /// </summary>
-        public async Task<PagedResponseCollection<ListAllProcessesResponse>> ListAllProcesses(RequestOptions options)
+        public async Task DeleteServiceBroker(Guid? guid)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = "/v3/processes";
-            uriBuilder.Query = options.ToString();
-            var client = this.GetHttpClient();
-            client.Uri = uriBuilder.Uri;
-            client.Method = HttpMethod.Get;
-            var authHeader = await BuildAuthenticationHeader();
-            if (!string.IsNullOrWhiteSpace(authHeader.Key))
-            {
-                if (client.Headers.ContainsKey(authHeader.Key))
-                    client.Headers[authHeader.Key] = authHeader.Value;
-                else
-                    client.Headers.Add(authHeader);
-            }
-            var expectedReturnStatus = 200;
-            var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializePage<ListAllProcessesResponse>(await response.ReadContentAsStringAsync(), this.Client);
-        }
-
-        /// <summary>
-        /// Scaling a Process
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/processes__experimental_/scaling_a_process.html"</para>
-        /// </summary>
-        public async Task<ScalingProcessResponse> ScalingProcess(Guid? guid, ScalingProcessRequest value)
-        {
-            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/processes/{0}/actions/scale", guid);
-            var client = this.GetHttpClient();
-            client.Uri = uriBuilder.Uri;
-            client.Method = HttpMethod.Put;
-            var authHeader = await BuildAuthenticationHeader();
-            if (!string.IsNullOrWhiteSpace(authHeader.Key))
-            {
-                if (client.Headers.ContainsKey(authHeader.Key))
-                    client.Headers[authHeader.Key] = authHeader.Value;
-                else
-                    client.Headers.Add(authHeader);
-            }
-            client.ContentType = "application/x-www-form-urlencoded";
-            client.Content = ((string)JsonConvert.SerializeObject(value)).ConvertToStream();
-            var expectedReturnStatus = 200;
-            var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializeJson<ScalingProcessResponse>(await response.ReadContentAsStringAsync());
-        }
-
-        /// <summary>
-        /// Terminating a Process instance
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/processes__experimental_/terminating_a_process_instance.html"</para>
-        /// </summary>
-        public async Task TerminatingProcessInstance(Guid? guid, int? index)
-        {
-            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/processes/{0}/instances/{1}", guid, index);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/service_brokers/{0}", guid);
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
             client.Method = HttpMethod.Delete;
@@ -163,16 +102,16 @@ namespace CloudFoundry.CloudController.V3.Client.Base
         }
 
         /// <summary>
-        /// Updating a Process
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/processes__experimental_/updating_a_process.html"</para>
+        /// Update a Service Broker
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_brokers/update_a_service_broker.html"</para>
         /// </summary>
-        public async Task<UpdateProcessResponse> UpdateProcess(Guid? guid, UpdateProcessRequest value)
+        public async Task<UpdateServiceBrokerResponse> UpdateServiceBroker(Guid? guid, UpdateServiceBrokerRequest value)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/processes/{0}", guid);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/service_brokers/{0}", guid);
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
-            client.Method = new HttpMethod("PATCH");
+            client.Method = HttpMethod.Put;
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
@@ -185,7 +124,67 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             client.Content = ((string)JsonConvert.SerializeObject(value)).ConvertToStream();
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializeJson<UpdateProcessResponse>(await response.ReadContentAsStringAsync());
+            return Utilities.DeserializeJson<UpdateServiceBrokerResponse>(await response.ReadContentAsStringAsync());
+        }
+
+        /// <summary>
+        /// Create a Service Broker
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_brokers/create_a_service_broker.html"</para>
+        /// </summary>
+        public async Task<CreateServiceBrokerResponse> CreateServiceBroker(CreateServiceBrokerRequest value)
+        {
+            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
+            uriBuilder.Path = "/v2/service_brokers";
+            var client = this.GetHttpClient();
+            client.Uri = uriBuilder.Uri;
+            client.Method = HttpMethod.Post;
+            var authHeader = await BuildAuthenticationHeader();
+            if (!string.IsNullOrWhiteSpace(authHeader.Key))
+            {
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
+            }
+            client.ContentType = "application/x-www-form-urlencoded";
+            client.Content = ((string)JsonConvert.SerializeObject(value)).ConvertToStream();
+            var expectedReturnStatus = 201;
+            var response = await this.SendAsync(client, expectedReturnStatus);
+            return Utilities.DeserializeJson<CreateServiceBrokerResponse>(await response.ReadContentAsStringAsync());
+        }
+
+        /// <summary>
+        /// List all Service Brokers
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_brokers/list_all_service_brokers.html"</para>
+        /// </summary>
+        public async Task<PagedResponseCollection<ListAllServiceBrokersResponse>> ListAllServiceBrokers()
+        {
+            return await ListAllServiceBrokers(new RequestOptions());
+        }
+
+        /// <summary>
+        /// List all Service Brokers
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_brokers/list_all_service_brokers.html"</para>
+        /// </summary>
+        public async Task<PagedResponseCollection<ListAllServiceBrokersResponse>> ListAllServiceBrokers(RequestOptions options)
+        {
+            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
+            uriBuilder.Path = "/v2/service_brokers";
+            uriBuilder.Query = options.ToString();
+            var client = this.GetHttpClient();
+            client.Uri = uriBuilder.Uri;
+            client.Method = HttpMethod.Get;
+            var authHeader = await BuildAuthenticationHeader();
+            if (!string.IsNullOrWhiteSpace(authHeader.Key))
+            {
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
+            }
+            var expectedReturnStatus = 200;
+            var response = await this.SendAsync(client, expectedReturnStatus);
+            return Utilities.DeserializePage<ListAllServiceBrokersResponse>(await response.ReadContentAsStringAsync(), this.Client);
         }
     }
 }

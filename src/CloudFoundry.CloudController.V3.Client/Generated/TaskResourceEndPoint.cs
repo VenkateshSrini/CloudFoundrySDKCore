@@ -8,19 +8,22 @@ using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Text;
+using CloudFoundry.CloudController.Common.Http;
 
 namespace CloudFoundry.CloudController.V3.Client
 {
     public class TaskResourceEndPoint: AbstractTaskResourceEndPoint
     {
-        public TaskResourceEndPoint(CloudFoundryClient client):base()
+        public TaskResourceEndPoint(CloudFoundryClientV3 client,
+            ISimpleHttpClient simpleHttpClient) :base(simpleHttpClient)
         {
             this.Client = client;
         }
     }
     public abstract class AbstractTaskResourceEndPoint:BaseEndpoint
     {
-        protected AbstractTaskResourceEndPoint()
+        protected AbstractTaskResourceEndPoint(ISimpleHttpClient simpleHttpClient)
+            :base(simpleHttpClient)
         {
         }
         public async Task<DC_CreateTaskResponse>CreateTask(DC_CreateTaskRequest createTaskRequest)
@@ -33,7 +36,10 @@ namespace CloudFoundry.CloudController.V3.Client
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
-                client.Headers.Add(authHeader);
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
             }
             //client.ContentType = "application/x-www-form-urlencoded";
             //client.Content = ((string)JsonConvert.SerializeObject(createTaskRequest)).ConvertToStream();
@@ -45,14 +51,17 @@ namespace CloudFoundry.CloudController.V3.Client
         }
         public async Task<DC_CancelTaskResponse>CancelTask(DC_CancelTaskRequest cancelTaskRequest) {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = $"/v3/tasks/{cancelTaskRequest.TaskGuid}/cancel";
+            uriBuilder.Path = $"/v3/tasks/{cancelTaskRequest.TaskGuid}/actions/cancel";
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
             client.Method = HttpMethod.Put;
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
-                client.Headers.Add(authHeader);
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
@@ -68,7 +77,10 @@ namespace CloudFoundry.CloudController.V3.Client
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
-                client.Headers.Add(authHeader);
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
@@ -78,8 +90,10 @@ namespace CloudFoundry.CloudController.V3.Client
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
           
-            var queryParams = ((listTaskRequest != null) && (listTaskRequest.BuildQueryParams().Length>0)) ? "?" + listTaskRequest.BuildQueryParams() : string.Empty;
-            uriBuilder.Path = $"/v3/tasks{queryParams}";
+            var queryParams = ((listTaskRequest != null) && (listTaskRequest.BuildQueryParams().Length>0)) ? listTaskRequest.BuildQueryParams() : string.Empty;
+            uriBuilder.Path = $"/v3/tasks";
+            if (!string.IsNullOrWhiteSpace(queryParams))
+                uriBuilder.Query = queryParams;
             
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
@@ -87,7 +101,10 @@ namespace CloudFoundry.CloudController.V3.Client
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
-                client.Headers.Add(authHeader);
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
@@ -97,8 +114,10 @@ namespace CloudFoundry.CloudController.V3.Client
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
 
-            var queryParams = ((listTaskforAppRequest != null) && (listTaskforAppRequest.BuildQueryParams().Length > 0)) ? "?" + listTaskforAppRequest.BuildQueryParams() : string.Empty;
-            uriBuilder.Path = $"/v3/apps/{listTaskforAppRequest.AppGuid}/tasks{queryParams}";
+            var queryParams = ((listTaskforAppRequest != null) && (listTaskforAppRequest.BuildQueryParams().Length > 0)) ? listTaskforAppRequest.BuildQueryParams() : string.Empty;
+            uriBuilder.Path = $"/v3/apps/{listTaskforAppRequest.AppGuid}/tasks";
+            if (!string.IsNullOrWhiteSpace(queryParams))
+                uriBuilder.Query = queryParams;
 
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
@@ -106,7 +125,10 @@ namespace CloudFoundry.CloudController.V3.Client
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
-                client.Headers.Add(authHeader);
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);

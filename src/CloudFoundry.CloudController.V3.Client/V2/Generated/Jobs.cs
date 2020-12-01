@@ -13,7 +13,7 @@
 
 using CloudFoundry.CloudController.Common;
 using CloudFoundry.CloudController.Common.Http;
-using CloudFoundry.CloudController.V3.Client.Data;
+using CloudFoundry.CloudController.V2.Client.Data;
 using Newtonsoft.Json;
 using System;
 using System.CodeDom.Compiler;
@@ -22,80 +22,46 @@ using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace CloudFoundry.CloudController.V3.Client
+namespace CloudFoundry.CloudController.V2.Client
 {
     /// <summary>
-    /// DropletsExperimental Endpoint
+    /// Jobs Endpoint
     /// </summary>
     [GeneratedCodeAttribute("cf-sdk-builder", "1.0.0.0")]
-    public partial class DropletsExperimentalEndpoint : CloudFoundry.CloudController.V3.Client.Base.AbstractDropletsExperimentalEndpoint
+    public partial class JobsEndpoint : CloudFoundry.CloudController.V2.Client.Base.AbstractJobsEndpoint
     {
-        internal DropletsExperimentalEndpoint(CloudFoundryClientV3 client,
-            ISimpleHttpClient simpleHttpClient) : base(simpleHttpClient)
+        internal JobsEndpoint(CloudFoundryClientV2 client
+            , ISimpleHttpClient simpleHttpClient) : base(simpleHttpClient)
         {
             this.Client = client;
         }
     }
 }
 
-namespace CloudFoundry.CloudController.V3.Client.Base
+namespace CloudFoundry.CloudController.V2.Client.Base
 {
     /// <summary>
-    /// Base abstract class for DropletsExperimental Endpoint
+    /// Base abstract class for Jobs Endpoint
     /// </summary>
     [GeneratedCodeAttribute("cf-sdk-builder", "1.0.0.0")]
-    public abstract class AbstractDropletsExperimentalEndpoint : BaseEndpoint
+    public abstract class AbstractJobsEndpoint : BaseEndpoint
     {
         /// <summary>
         /// Initializes the class
         /// </summary>
-        protected AbstractDropletsExperimentalEndpoint(ISimpleHttpClient simpleHttpClient)
+        protected AbstractJobsEndpoint(ISimpleHttpClient simpleHttpClient)
             :base(simpleHttpClient)
         {
         }
 
         /// <summary>
-        /// Delete a Droplet
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/droplets__experimental_/delete_a_droplet.html"</para>
+        /// Retrieve Job with known failure
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/jobs/retrieve_job_with_known_failure.html"</para>
         /// </summary>
-        public async Task DeleteDroplet(Guid? guid)
+        public async Task<RetrieveJobWithKnownFailureResponse> RetrieveJobWithKnownFailure(Guid? guid)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/droplets/{0}", guid);
-            var client = this.GetHttpClient();
-            client.Uri = uriBuilder.Uri;
-            client.Method = HttpMethod.Delete;
-            var authHeader = await BuildAuthenticationHeader();
-            if (!string.IsNullOrWhiteSpace(authHeader.Key))
-            {
-                if (client.Headers.ContainsKey(authHeader.Key))
-                    client.Headers[authHeader.Key] = authHeader.Value;
-                else
-                    client.Headers.Add(authHeader);
-            }
-            client.ContentType = "application/x-www-form-urlencoded";
-            var expectedReturnStatus = 204;
-            var response = await this.SendAsync(client, expectedReturnStatus);
-        }
-
-        /// <summary>
-        /// Filters Droplets by states, app_guids
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/droplets__experimental_/filters_droplets_by_states,_app_guids.html"</para>
-        /// </summary>
-        public async Task<PagedResponseCollection<FiltersDropletsByStatesAppGuidsResponse>> FiltersDropletsByStatesAppGuids()
-        {
-            return await FiltersDropletsByStatesAppGuids(new RequestOptions());
-        }
-
-        /// <summary>
-        /// Filters Droplets by states, app_guids
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/droplets__experimental_/filters_droplets_by_states,_app_guids.html"</para>
-        /// </summary>
-        public async Task<PagedResponseCollection<FiltersDropletsByStatesAppGuidsResponse>> FiltersDropletsByStatesAppGuids(RequestOptions options)
-        {
-            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = "/v3/droplets";
-            uriBuilder.Query = options.ToString();
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/jobs/{0}", guid);
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
             client.Method = HttpMethod.Get;
@@ -109,17 +75,17 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializePage<FiltersDropletsByStatesAppGuidsResponse>(await response.ReadContentAsStringAsync(), this.Client);
+            return Utilities.DeserializeJson<RetrieveJobWithKnownFailureResponse>(await response.ReadContentAsStringAsync());
         }
 
         /// <summary>
-        /// Get a Droplet
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/droplets__experimental_/get_a_droplet.html"</para>
+        /// Retrieve Job with unknown failure
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/jobs/retrieve_job_with_unknown_failure.html"</para>
         /// </summary>
-        public async Task<GetDropletResponse> GetDroplet(Guid? guid)
+        public async Task<RetrieveJobWithUnknownFailureResponse> RetrieveJobWithUnknownFailure(Guid? guid)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/droplets/{0}", guid);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/jobs/{0}", guid);
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
             client.Method = HttpMethod.Get;
@@ -133,27 +99,17 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializeJson<GetDropletResponse>(await response.ReadContentAsStringAsync());
+            return Utilities.DeserializeJson<RetrieveJobWithUnknownFailureResponse>(await response.ReadContentAsStringAsync());
         }
 
         /// <summary>
-        /// List all Droplets
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/droplets__experimental_/list_all_droplets.html"</para>
+        /// Retrieve Job that is queued
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/jobs/retrieve_job_that_is_queued.html"</para>
         /// </summary>
-        public async Task<PagedResponseCollection<ListAllDropletsResponse>> ListAllDroplets()
-        {
-            return await ListAllDroplets(new RequestOptions());
-        }
-
-        /// <summary>
-        /// List all Droplets
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/droplets__experimental_/list_all_droplets.html"</para>
-        /// </summary>
-        public async Task<PagedResponseCollection<ListAllDropletsResponse>> ListAllDroplets(RequestOptions options)
+        public async Task<RetrieveJobThatIsQueuedResponse> RetrieveJobThatIsQueued(Guid? guid)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = "/v3/droplets";
-            uriBuilder.Query = options.ToString();
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/jobs/{0}", guid);
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
             client.Method = HttpMethod.Get;
@@ -167,7 +123,31 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializePage<ListAllDropletsResponse>(await response.ReadContentAsStringAsync(), this.Client);
+            return Utilities.DeserializeJson<RetrieveJobThatIsQueuedResponse>(await response.ReadContentAsStringAsync());
+        }
+
+        /// <summary>
+        /// Retrieve Job that was successful
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/jobs/retrieve_job_that_was_successful.html"</para>
+        /// </summary>
+        public async Task<RetrieveJobThatWasSuccessfulResponse> RetrieveJobThatWasSuccessful(Guid? guid)
+        {
+            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/jobs/{0}", guid);
+            var client = this.GetHttpClient();
+            client.Uri = uriBuilder.Uri;
+            client.Method = HttpMethod.Get;
+            var authHeader = await BuildAuthenticationHeader();
+            if (!string.IsNullOrWhiteSpace(authHeader.Key))
+            {
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
+            }
+            var expectedReturnStatus = 200;
+            var response = await this.SendAsync(client, expectedReturnStatus);
+            return Utilities.DeserializeJson<RetrieveJobThatWasSuccessfulResponse>(await response.ReadContentAsStringAsync());
         }
     }
 }

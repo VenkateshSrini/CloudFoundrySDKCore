@@ -13,7 +13,7 @@
 
 using CloudFoundry.CloudController.Common;
 using CloudFoundry.CloudController.Common.Http;
-using CloudFoundry.CloudController.V3.Client.Data;
+using CloudFoundry.CloudController.V2.Client.Data;
 using Newtonsoft.Json;
 using System;
 using System.CodeDom.Compiler;
@@ -22,15 +22,15 @@ using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace CloudFoundry.CloudController.V3.Client
+namespace CloudFoundry.CloudController.V2.Client
 {
     /// <summary>
-    /// DropletsExperimental Endpoint
+    /// Services Endpoint
     /// </summary>
     [GeneratedCodeAttribute("cf-sdk-builder", "1.0.0.0")]
-    public partial class DropletsExperimentalEndpoint : CloudFoundry.CloudController.V3.Client.Base.AbstractDropletsExperimentalEndpoint
+    public partial class ServicesEndpoint : CloudFoundry.CloudController.V2.Client.Base.AbstractServicesEndpoint
     {
-        internal DropletsExperimentalEndpoint(CloudFoundryClientV3 client,
+        internal ServicesEndpoint(CloudFoundryClientV2 client,
             ISimpleHttpClient simpleHttpClient) : base(simpleHttpClient)
         {
             this.Client = client;
@@ -38,30 +38,31 @@ namespace CloudFoundry.CloudController.V3.Client
     }
 }
 
-namespace CloudFoundry.CloudController.V3.Client.Base
+namespace CloudFoundry.CloudController.V2.Client.Base
 {
     /// <summary>
-    /// Base abstract class for DropletsExperimental Endpoint
+    /// Base abstract class for Services Endpoint
     /// </summary>
     [GeneratedCodeAttribute("cf-sdk-builder", "1.0.0.0")]
-    public abstract class AbstractDropletsExperimentalEndpoint : BaseEndpoint
+    public abstract class AbstractServicesEndpoint : BaseEndpoint
     {
         /// <summary>
         /// Initializes the class
         /// </summary>
-        protected AbstractDropletsExperimentalEndpoint(ISimpleHttpClient simpleHttpClient)
+        protected AbstractServicesEndpoint(ISimpleHttpClient simpleHttpClient)
             :base(simpleHttpClient)
         {
         }
 
         /// <summary>
-        /// Delete a Droplet
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/droplets__experimental_/delete_a_droplet.html"</para>
+        /// Delete a Particular Service
+        /// <para>Deleting with async not set to true will return a 204 status code and an empty response body.</para>
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/services/delete_a_particular_service.html"</para>
         /// </summary>
-        public async Task DeleteDroplet(Guid? guid)
+        public async Task<DeleteServiceResponse> DeleteService(Guid? guid)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/droplets/{0}", guid);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/services/{0}", guid);
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
             client.Method = HttpMethod.Delete;
@@ -74,27 +75,28 @@ namespace CloudFoundry.CloudController.V3.Client.Base
                     client.Headers.Add(authHeader);
             }
             client.ContentType = "application/x-www-form-urlencoded";
-            var expectedReturnStatus = 204;
+            var expectedReturnStatus = 202;
             var response = await this.SendAsync(client, expectedReturnStatus);
+            return Utilities.DeserializeJson<DeleteServiceResponse>(await response.ReadContentAsStringAsync());
         }
 
         /// <summary>
-        /// Filters Droplets by states, app_guids
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/droplets__experimental_/filters_droplets_by_states,_app_guids.html"</para>
+        /// List all Service Plans for the Service
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/services/list_all_service_plans_for_the_service.html"</para>
         /// </summary>
-        public async Task<PagedResponseCollection<FiltersDropletsByStatesAppGuidsResponse>> FiltersDropletsByStatesAppGuids()
+        public async Task<PagedResponseCollection<ListAllServicePlansForServiceResponse>> ListAllServicePlansForService(Guid? guid)
         {
-            return await FiltersDropletsByStatesAppGuids(new RequestOptions());
+            return await ListAllServicePlansForService(guid, new RequestOptions());
         }
 
         /// <summary>
-        /// Filters Droplets by states, app_guids
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/droplets__experimental_/filters_droplets_by_states,_app_guids.html"</para>
+        /// List all Service Plans for the Service
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/services/list_all_service_plans_for_the_service.html"</para>
         /// </summary>
-        public async Task<PagedResponseCollection<FiltersDropletsByStatesAppGuidsResponse>> FiltersDropletsByStatesAppGuids(RequestOptions options)
+        public async Task<PagedResponseCollection<ListAllServicePlansForServiceResponse>> ListAllServicePlansForService(Guid? guid, RequestOptions options)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = "/v3/droplets";
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/services/{0}/service_plans", guid);
             uriBuilder.Query = options.ToString();
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
@@ -109,17 +111,17 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializePage<FiltersDropletsByStatesAppGuidsResponse>(await response.ReadContentAsStringAsync(), this.Client);
+            return Utilities.DeserializePage<ListAllServicePlansForServiceResponse>(await response.ReadContentAsStringAsync(), this.Client);
         }
 
         /// <summary>
-        /// Get a Droplet
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/droplets__experimental_/get_a_droplet.html"</para>
+        /// Retrieve a Particular Service
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/services/retrieve_a_particular_service.html"</para>
         /// </summary>
-        public async Task<GetDropletResponse> GetDroplet(Guid? guid)
+        public async Task<RetrieveServiceResponse> RetrieveService(Guid? guid)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/droplets/{0}", guid);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/services/{0}", guid);
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
             client.Method = HttpMethod.Get;
@@ -133,26 +135,26 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializeJson<GetDropletResponse>(await response.ReadContentAsStringAsync());
+            return Utilities.DeserializeJson<RetrieveServiceResponse>(await response.ReadContentAsStringAsync());
         }
 
         /// <summary>
-        /// List all Droplets
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/droplets__experimental_/list_all_droplets.html"</para>
+        /// List all Services
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/services/list_all_services.html"</para>
         /// </summary>
-        public async Task<PagedResponseCollection<ListAllDropletsResponse>> ListAllDroplets()
+        public async Task<PagedResponseCollection<ListAllServicesResponse>> ListAllServices()
         {
-            return await ListAllDroplets(new RequestOptions());
+            return await ListAllServices(new RequestOptions());
         }
 
         /// <summary>
-        /// List all Droplets
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/droplets__experimental_/list_all_droplets.html"</para>
+        /// List all Services
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/services/list_all_services.html"</para>
         /// </summary>
-        public async Task<PagedResponseCollection<ListAllDropletsResponse>> ListAllDroplets(RequestOptions options)
+        public async Task<PagedResponseCollection<ListAllServicesResponse>> ListAllServices(RequestOptions options)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = "/v3/droplets";
+            uriBuilder.Path = "/v2/services";
             uriBuilder.Query = options.ToString();
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
@@ -167,7 +169,7 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             }
             var expectedReturnStatus = 200;
             var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializePage<ListAllDropletsResponse>(await response.ReadContentAsStringAsync(), this.Client);
+            return Utilities.DeserializePage<ListAllServicesResponse>(await response.ReadContentAsStringAsync(), this.Client);
         }
     }
 }

@@ -13,7 +13,7 @@
 
 using CloudFoundry.CloudController.Common;
 using CloudFoundry.CloudController.Common.Http;
-using CloudFoundry.CloudController.V3.Client.Data;
+using CloudFoundry.CloudController.V2.Client.Data;
 using Newtonsoft.Json;
 using System;
 using System.CodeDom.Compiler;
@@ -22,15 +22,15 @@ using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace CloudFoundry.CloudController.V3.Client
+namespace CloudFoundry.CloudController.V2.Client
 {
     /// <summary>
-    /// PackagesExperimental Endpoint
+    /// ServicePlanVisibilities Endpoint
     /// </summary>
     [GeneratedCodeAttribute("cf-sdk-builder", "1.0.0.0")]
-    public partial class PackagesExperimentalEndpoint : CloudFoundry.CloudController.V3.Client.Base.AbstractPackagesExperimentalEndpoint
+    public partial class ServicePlanVisibilitiesEndpoint : CloudFoundry.CloudController.V2.Client.Base.AbstractServicePlanVisibilitiesEndpoint
     {
-        internal PackagesExperimentalEndpoint(CloudFoundryClientV3 client,
+        internal ServicePlanVisibilitiesEndpoint(CloudFoundryClientV2 client,
             ISimpleHttpClient simpleHttpClient) : base(simpleHttpClient)
         {
             this.Client = client;
@@ -38,58 +38,33 @@ namespace CloudFoundry.CloudController.V3.Client
     }
 }
 
-namespace CloudFoundry.CloudController.V3.Client.Base
+namespace CloudFoundry.CloudController.V2.Client.Base
 {
     /// <summary>
-    /// Base abstract class for PackagesExperimental Endpoint
+    /// Base abstract class for ServicePlanVisibilities Endpoint
     /// </summary>
     [GeneratedCodeAttribute("cf-sdk-builder", "1.0.0.0")]
-    public abstract class AbstractPackagesExperimentalEndpoint : BaseEndpoint
+    public abstract class AbstractServicePlanVisibilitiesEndpoint : BaseEndpoint
     {
         /// <summary>
         /// Initializes the class
         /// </summary>
-        protected AbstractPackagesExperimentalEndpoint(ISimpleHttpClient simpleHttpClient)
+        protected AbstractServicePlanVisibilitiesEndpoint(ISimpleHttpClient simpleHttpClient)
             :base(simpleHttpClient)
         {
         }
 
         /// <summary>
-        /// Copy a Package
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/packages__experimental_/copy_a_package.html"</para>
+        /// Updating a Service Plan Visibility
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_plan_visibilities/updating_a_service_plan_visibility.html"</para>
         /// </summary>
-        public async Task<CopyPackageResponse> CopyPackage(Guid? guid)
+        public async Task<UpdateServicePlanVisibilityResponse> UpdateServicePlanVisibility(Guid? guid, UpdateServicePlanVisibilityRequest value)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/apps/{0}/packages", guid);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/service_plan_visibilities/{0}", guid);
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
-            client.Method = HttpMethod.Post;
-            var authHeader = await BuildAuthenticationHeader();
-            if (!string.IsNullOrWhiteSpace(authHeader.Key))
-            {
-                if (client.Headers.ContainsKey(authHeader.Key))
-                    client.Headers[authHeader.Key] = authHeader.Value;
-                else
-                    client.Headers.Add(authHeader);
-            }
-            client.ContentType = "application/x-www-form-urlencoded";
-            var expectedReturnStatus = 201;
-            var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializeJson<CopyPackageResponse>(await response.ReadContentAsStringAsync());
-        }
-
-        /// <summary>
-        /// Create a Package
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/packages__experimental_/create_a_package.html"</para>
-        /// </summary>
-        public async Task<CreatePackageResponse> CreatePackage(Guid? guid, CreatePackageRequest value)
-        {
-            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/apps/{0}/packages", guid);
-            var client = this.GetHttpClient();
-            client.Uri = uriBuilder.Uri;
-            client.Method = HttpMethod.Post;
+            client.Method = HttpMethod.Put;
             var authHeader = await BuildAuthenticationHeader();
             if (!string.IsNullOrWhiteSpace(authHeader.Key))
             {
@@ -102,17 +77,17 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             client.Content = ((string)JsonConvert.SerializeObject(value)).ConvertToStream();
             var expectedReturnStatus = 201;
             var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializeJson<CreatePackageResponse>(await response.ReadContentAsStringAsync());
+            return Utilities.DeserializeJson<UpdateServicePlanVisibilityResponse>(await response.ReadContentAsStringAsync());
         }
 
         /// <summary>
-        /// Delete a Package
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/packages__experimental_/delete_a_package.html"</para>
+        /// Delete a Particular Service Plan Visibilities
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_plan_visibilities/delete_a_particular_service_plan_visibilities.html"</para>
         /// </summary>
-        public async Task DeletePackage(Guid? guid)
+        public async Task DeleteServicePlanVisibilities(Guid? guid)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/packages/{0}", guid);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/service_plan_visibilities/{0}", guid);
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
             client.Method = HttpMethod.Delete;
@@ -130,71 +105,13 @@ namespace CloudFoundry.CloudController.V3.Client.Base
         }
 
         /// <summary>
-        /// Get a Package
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/packages__experimental_/get_a_package.html"</para>
+        /// Creating a Service Plan Visibility
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_plan_visibilities/creating_a_service_plan_visibility.html"</para>
         /// </summary>
-        public async Task<GetPackageResponse> GetPackage(Guid? guid)
+        public async Task<CreateServicePlanVisibilityResponse> CreateServicePlanVisibility(CreateServicePlanVisibilityRequest value)
         {
             UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/packages/{0}", guid);
-            var client = this.GetHttpClient();
-            client.Uri = uriBuilder.Uri;
-            client.Method = HttpMethod.Get;
-            var authHeader = await BuildAuthenticationHeader();
-            if (!string.IsNullOrWhiteSpace(authHeader.Key))
-            {
-                if (client.Headers.ContainsKey(authHeader.Key))
-                    client.Headers[authHeader.Key] = authHeader.Value;
-                else
-                    client.Headers.Add(authHeader);
-            }
-            var expectedReturnStatus = 200;
-            var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializeJson<GetPackageResponse>(await response.ReadContentAsStringAsync());
-        }
-
-        /// <summary>
-        /// List all Packages
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/packages__experimental_/list_all_packages.html"</para>
-        /// </summary>
-        public async Task<PagedResponseCollection<ListAllPackagesResponse>> ListAllPackages()
-        {
-            return await ListAllPackages(new RequestOptions());
-        }
-
-        /// <summary>
-        /// List all Packages
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/packages__experimental_/list_all_packages.html"</para>
-        /// </summary>
-        public async Task<PagedResponseCollection<ListAllPackagesResponse>> ListAllPackages(RequestOptions options)
-        {
-            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = "/v3/packages";
-            uriBuilder.Query = options.ToString();
-            var client = this.GetHttpClient();
-            client.Uri = uriBuilder.Uri;
-            client.Method = HttpMethod.Get;
-            var authHeader = await BuildAuthenticationHeader();
-            if (!string.IsNullOrWhiteSpace(authHeader.Key))
-            {
-                if (client.Headers.ContainsKey(authHeader.Key))
-                    client.Headers[authHeader.Key] = authHeader.Value;
-                else
-                    client.Headers.Add(authHeader);
-            }
-            var expectedReturnStatus = 200;
-            var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializePage<ListAllPackagesResponse>(await response.ReadContentAsStringAsync(), this.Client);
-        }
-
-        /// <summary>
-        /// Stage a package
-        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/238/packages__experimental_/stage_a_package.html"</para>
-        /// </summary>
-        public async Task<StagePackageResponse> StagePackage(Guid? guid, StagePackageRequest value)
-        {
-            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
-            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v3/packages/{0}/droplets", guid);
+            uriBuilder.Path = "/v2/service_plan_visibilities";
             var client = this.GetHttpClient();
             client.Uri = uriBuilder.Uri;
             client.Method = HttpMethod.Post;
@@ -210,7 +127,65 @@ namespace CloudFoundry.CloudController.V3.Client.Base
             client.Content = ((string)JsonConvert.SerializeObject(value)).ConvertToStream();
             var expectedReturnStatus = 201;
             var response = await this.SendAsync(client, expectedReturnStatus);
-            return Utilities.DeserializeJson<StagePackageResponse>(await response.ReadContentAsStringAsync());
+            return Utilities.DeserializeJson<CreateServicePlanVisibilityResponse>(await response.ReadContentAsStringAsync());
+        }
+
+        /// <summary>
+        /// List all Service Plan Visibilities
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_plan_visibilities/list_all_service_plan_visibilities.html"</para>
+        /// </summary>
+        public async Task<PagedResponseCollection<ListAllServicePlanVisibilitiesResponse>> ListAllServicePlanVisibilities()
+        {
+            return await ListAllServicePlanVisibilities(new RequestOptions());
+        }
+
+        /// <summary>
+        /// List all Service Plan Visibilities
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_plan_visibilities/list_all_service_plan_visibilities.html"</para>
+        /// </summary>
+        public async Task<PagedResponseCollection<ListAllServicePlanVisibilitiesResponse>> ListAllServicePlanVisibilities(RequestOptions options)
+        {
+            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
+            uriBuilder.Path = "/v2/service_plan_visibilities";
+            uriBuilder.Query = options.ToString();
+            var client = this.GetHttpClient();
+            client.Uri = uriBuilder.Uri;
+            client.Method = HttpMethod.Get;
+            var authHeader = await BuildAuthenticationHeader();
+            if (!string.IsNullOrWhiteSpace(authHeader.Key))
+            {
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
+            }
+            var expectedReturnStatus = 200;
+            var response = await this.SendAsync(client, expectedReturnStatus);
+            return Utilities.DeserializePage<ListAllServicePlanVisibilitiesResponse>(await response.ReadContentAsStringAsync(), this.Client);
+        }
+
+        /// <summary>
+        /// Retrieve a Particular Service Plan Visibility
+        /// <para>For detailed information, see online documentation at: "http://apidocs.cloudfoundry.org/250/service_plan_visibilities/retrieve_a_particular_service_plan_visibility.html"</para>
+        /// </summary>
+        public async Task<RetrieveServicePlanVisibilityResponse> RetrieveServicePlanVisibility(Guid? guid)
+        {
+            UriBuilder uriBuilder = new UriBuilder(this.Client.CloudTarget);
+            uriBuilder.Path = string.Format(CultureInfo.InvariantCulture, "/v2/service_plan_visibilities/{0}", guid);
+            var client = this.GetHttpClient();
+            client.Uri = uriBuilder.Uri;
+            client.Method = HttpMethod.Get;
+            var authHeader = await BuildAuthenticationHeader();
+            if (!string.IsNullOrWhiteSpace(authHeader.Key))
+            {
+                if (client.Headers.ContainsKey(authHeader.Key))
+                    client.Headers[authHeader.Key] = authHeader.Value;
+                else
+                    client.Headers.Add(authHeader);
+            }
+            var expectedReturnStatus = 200;
+            var response = await this.SendAsync(client, expectedReturnStatus);
+            return Utilities.DeserializeJson<RetrieveServicePlanVisibilityResponse>(await response.ReadContentAsStringAsync());
         }
     }
 }
