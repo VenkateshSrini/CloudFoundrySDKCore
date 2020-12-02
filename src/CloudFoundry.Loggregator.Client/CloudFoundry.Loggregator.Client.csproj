@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="WinInsider.System.Net.Http.Formatting" Version="1.0.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CloudFoundry.CloudController.V3.Client\CloudFoundry.CloudController.V3.Client.csproj" />
+  </ItemGroup>
+</Project>

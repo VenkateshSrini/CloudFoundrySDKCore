@@ -5,3 +5,8 @@
 /.vs/cf-dotnet-sdk/v15
 /src/CloudFoundry.CloudController.V3.Client/bin/Debug/net5.0
 /src/CloudFoundry.CloudController.V3.Client/obj
+/.vs/CloudFoundrySDK
+/src/CloudFoundry.Doppler.DropsondeProtocol/bin/Debug/net5.0
+/src/CloudFoundry.Doppler.DropsondeProtocol/obj
+/src/CloudFoundry.Loggregator.Client/bin/Debug/net5.0
+/src/CloudFoundry.Loggregator.Client/obj

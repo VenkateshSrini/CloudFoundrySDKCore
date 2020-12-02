@@ -26,7 +26,7 @@
 
         private HttpClient client = null;
         private readonly SimpleHttpRedirectHandler handler = null;
-        private CancellationToken cancellationToken = CancellationToken.None;
+        public CancellationToken cancellationToken = CancellationToken.None;
         private bool disposed = false;
 
         public SimpleHttpClient(HttpClient httpClient, 
