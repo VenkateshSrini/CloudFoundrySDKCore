@@ -7,9 +7,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{73F5C4AC-5C9
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudFoundry.CloudController.V3.Client", "src\CloudFoundry.CloudController.V3.Client\CloudFoundry.CloudController.V3.Client.csproj", "{099FC4B7-C4EF-452A-AED1-F96B0B240D76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudFoundry.Doppler.DropsondeProtocol", "src\CloudFoundry.Doppler.DropsondeProtocol\CloudFoundry.Doppler.DropsondeProtocol.csproj", "{2A9B0DD0-7FA3-49A5-8A94-5D97E002F9AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudFoundry.Doppler.DropsondeProtocol", "src\CloudFoundry.Doppler.DropsondeProtocol\CloudFoundry.Doppler.DropsondeProtocol.csproj", "{2A9B0DD0-7FA3-49A5-8A94-5D97E002F9AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudFoundry.Loggregator.Client", "src\CloudFoundry.Loggregator.Client\CloudFoundry.Loggregator.Client.csproj", "{EA94231F-7080-4AB2-A11D-00B631FBCE70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudFoundry.Loggregator.Client", "src\CloudFoundry.Loggregator.Client\CloudFoundry.Loggregator.Client.csproj", "{28AFC259-E619-47B7-8A8E-ED60B951E6EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFTaskSpinner", "src\CFTaskSpinner\CFTaskSpinner.csproj", "{709DFA20-DBD8-412C-BF71-BC19B63545C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +27,14 @@ Global
 		{2A9B0DD0-7FA3-49A5-8A94-5D97E002F9AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A9B0DD0-7FA3-49A5-8A94-5D97E002F9AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A9B0DD0-7FA3-49A5-8A94-5D97E002F9AD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EA94231F-7080-4AB2-A11D-00B631FBCE70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA94231F-7080-4AB2-A11D-00B631FBCE70}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA94231F-7080-4AB2-A11D-00B631FBCE70}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA94231F-7080-4AB2-A11D-00B631FBCE70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28AFC259-E619-47B7-8A8E-ED60B951E6EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28AFC259-E619-47B7-8A8E-ED60B951E6EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28AFC259-E619-47B7-8A8E-ED60B951E6EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28AFC259-E619-47B7-8A8E-ED60B951E6EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{709DFA20-DBD8-412C-BF71-BC19B63545C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{709DFA20-DBD8-412C-BF71-BC19B63545C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{709DFA20-DBD8-412C-BF71-BC19B63545C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{709DFA20-DBD8-412C-BF71-BC19B63545C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +42,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{099FC4B7-C4EF-452A-AED1-F96B0B240D76} = {73F5C4AC-5C9E-4440-BC63-88AC979971E7}
 		{2A9B0DD0-7FA3-49A5-8A94-5D97E002F9AD} = {73F5C4AC-5C9E-4440-BC63-88AC979971E7}
+		{28AFC259-E619-47B7-8A8E-ED60B951E6EC} = {73F5C4AC-5C9E-4440-BC63-88AC979971E7}
+		{709DFA20-DBD8-412C-BF71-BC19B63545C2} = {73F5C4AC-5C9E-4440-BC63-88AC979971E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {38D5324A-7590-4E33-B6B0-6CF2E7EB3B85}

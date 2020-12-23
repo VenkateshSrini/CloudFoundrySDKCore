@@ -10,3 +10,6 @@
 /src/CloudFoundry.Doppler.DropsondeProtocol/obj
 /src/CloudFoundry.Loggregator.Client/bin/Debug/net5.0
 /src/CloudFoundry.Loggregator.Client/obj
+/src/CFTaskSpinner/bin/Debug/net5.0
+/src/CFTaskSpinner/obj
+/src/CFTaskSpinner/CFTaskSpinner.csproj.user
